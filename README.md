@@ -1,1 +1,2 @@
-# be-lazy
+# A handbook for the Lazy
+

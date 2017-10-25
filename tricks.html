@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<h1 id="table-of-contents">Table of Contents</h1>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#bash">Bash</a>
+<ul>
+<li><a href="#useful-shortcuts">Useful shortcuts</a></li>
+</ul></li>
+<li><a href="#plotting">Plotting</a>
+<ul>
+<li><a href="#xmgrace">xmgrace</a></li>
+</ul></li>
+<li><a href="#ssh">SSH</a>
+<ul>
+<li><a href="#escape-sequences">Escape sequences</a></li>
+</ul></li>
+<li><a href="#debugging">Debugging</a>
+<ul>
+<li><a href="#gdb">GDB</a></li>
+</ul></li>
+<li><a href="#uncategorized">Uncategorized</a>
+<ul>
+<li><a href="#making-movies">Making movies</a></li>
+<li><a href="#adding-a-fading-rounded-border-to-figures-with-gimp">Adding a fading, rounded border to figures with GIMP</a></li>
+</ul></li>
+</ul>
+<h1 id="introduction">Introduction</h1>
+<h1 id="bash">Bash</h1>
+<h2 id="useful-shortcuts">Useful shortcuts</h2>
+<ul>
+<li><code>!PATTERN</code> execute the most recent command in the shell history that begins with PATTERN (<em>e.g.</em> <code>!xm</code> will likely execute the last <code>xmgrace</code> command issued)</li>
+<li><code>ctrl + a</code> go to the beginning of the line</li>
+<li><code>ctrl + e</code> go to the end of the line</li>
+<li><code>ctrl + k</code> cut line after the cursor</li>
+<li><code>ctrl + u</code> cut line before the cursor</li>
+<li><code>alt + backspace</code> cut the word after the cursor</li>
+<li><code>ctrl + w</code> cut the word before the cursor</li>
+<li><code>ctrl + y</code> paste back the last thing you cut</li>
+<li><code>ctrl + p</code> previous command</li>
+<li><code>ctrl + n</code> next command</li>
+<li><code>ctrl + r</code> backward interactive command search</li>
+<li><code>ctrl + s</code> forward interactive command search (<strong>NB:</strong> <code>stty -ixon</code> should be first added to .bashrc)</li>
+</ul>
+<h1 id="plotting">Plotting</h1>
+<h2 id="xmgrace">xmgrace</h2>
+<h1 id="ssh">SSH</h1>
+<h2 id="escape-sequences">Escape sequences</h2>
+<p><a href="https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/">Source</a></p>
+<p>OpenSSH provides a variety of escape sequences that can be used during SSH sessions, even when the terminal is unresponsive. Typing <code>~?</code> (a tilde followed by a question mark) during an SSH session will print the list of available escape sequences which, with my OpenSSH client v7.2, looks like</p>
+<pre><code>~.   - terminate connection (and any multiplexed sessions)
+~B   - send a BREAK to the remote system
+~C   - open a command line
+~R   - request rekey
+~V/v - decrease/increase verbosity (LogLevel)
+~^Z  - suspend ssh
+~#   - list forwarded connections
+~&amp;   - background ssh (when waiting for connections to terminate)
+~?   - this message
+~~   - send the escape character by typing it twice</code></pre>
+<p><strong>Nota Bene:</strong> <code>~</code> (the tilde character) should be the <em>very</em> first character on the command line.</p>
+<h1 id="debugging">Debugging</h1>
+<h2 id="gdb">GDB</h2>
+<p>Here is a a very short and non-comprehensive list of useful GDB commands:</p>
+<ul>
+<li><code>break example.c:22</code> create a breakpoint at line 22 of the file <code>example.c</code>.</li>
+<li><code>break example.c:22 if i == 100</code> create a conditional breakpoint. It gets triggered only when the condition is met.</li>
+<li><code>where</code> print the stack-trace after a segfault (or similar error).</li>
+<li><code>up/down</code> move up (down) the stack-trace.</li>
+<li><code>ptype</code> output the type of a variable.</li>
+<li><code>info locals</code> display the name and value of all local variables.</li>
+<li><code>disable 1</code> disable breakpoint number 1.</li>
+</ul>
+<h1 id="uncategorized">Uncategorized</h1>
+<h2 id="making-movies">Making movies</h2>
+<p>We would like to generate a movie out of a (maybe very long) list of png images. We first create a file containing the list of png files sorted according to the order with which they should appear in the movie. If the names of the files are <code>img-1.png</code>, <code>img-2.png</code>, <em>etc.</em>, this can be accomplished by typing</p>
+<pre><code>$ ls -1v img-*.png &gt; list.dat</code></pre>
+<p>The <code>-v</code> option is a GNU extension that tells <code>ls</code> to order entries according to the natural sorting of the numbers contained in the entry names. If on your system this option is not supported or it does something else (this might be the case on BSD/OSX systems), then you can use the following command</p>
+<pre><code>$ ls -1 img-*.png | sort -n -t&#39;-&#39; -k 2 &gt; list.dat</code></pre>
+<p><code>-n</code> applies natural sorting, <code>-t'-'</code> tells sort to use dashes as the separators to split the entries it acts on into fields and <code>-k 2</code> to sort according to the value of the second field</p>
+<p>A movie of width WIDTH, height HEIGHT and framerate FPS can now be generated by using <code>mencoder</code> with the following options:</p>
+<pre><code>$ mencoder mf://@list.dat -mf w=WIDTH:h=HEIGHT:fps=FPS:type=png -ovc xvid -xvidencopts bitrate=200 -o output.avi</code></pre>
+<p>The <code>-ovc xvid</code> controls the type of output and may not be suitable on all systems (or for all the purposes). The <code>-xvidencopts bitrate=200</code> option sets a sort of <em>overall</em> quality of the output.</p>
+<h2 id="adding-a-fading-rounded-border-to-figures-with-gimp">Adding a fading, rounded border to figures with GIMP</h2>
+<ol style="list-style-type: decimal">
+<li>Select the whole picture (<code>ctrl + a</code>)</li>
+<li>Shrink the border by an appropriate amount of pixels (Select → Shrink). I would say no more than 10% of the figure size.</li>
+<li>Round the selection (Select → Rounded Rectangle)</li>
+<li>Invert the selection (<code>ctrl + i</code>)</li>
+<li>Feather the border (Select → Feather). I usually choose a number similar to the one used in step 2.</li>
+<li>Delete the selected region (press delete)</li>
+<li>Turn white into alpha (Colours → Colour to Alpha)</li>
+<li>Create a new layer (same width and height as the figure) and put it underneath all other layers</li>
+<li>Fill the layer with the background colour you want your picture to fade to at the border (usually black)</li>
+</ol>
+</body>
+</html>
