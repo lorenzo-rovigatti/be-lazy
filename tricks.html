@@ -14,7 +14,10 @@
 <p>by Lorenzo Rovigatti</p>
 <h1 id="table-of-contents">Table of Contents</h1>
 <ul>
-<li><a href="#introduction">Introduction</a></li>
+<li><a href="#introduction">Introduction</a>
+<ul>
+<li><a href="#how-to-use-this-book">How to use this book</a></li>
+</ul></li>
 <li><a href="#bash">Bash</a>
 <ul>
 <li><a href="#useful-shortcuts">Useful shortcuts</a></li>
@@ -38,6 +41,17 @@
 </ul></li>
 </ul>
 <h1 id="introduction">Introduction</h1>
+<p>I am a computational physicist and I spend most of the day in front of a computer. I consider myself quite the lazy person, and I find many of the daily tasks that are associated with my job to be extremely boring and repetitive. During the course of the years I have developed my own way of dealing with these chores.</p>
+<p>These notes contain many tricks of the trade I routinely use during my everyday job to make my life easier and, which is of the outmost importance for me, less boring. I am sure many of the solutions I have found to cope with these common issues can be solved in multiple ways. I am equally sure that many of the solutions I overlooked are plain better than the paths I chose to take. If you find that this is the case, feel free to drop me a line at <script type="text/javascript">
+<!--
+h='&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#108;&#x6f;&#114;&#x65;&#110;&#122;&#x6f;&#46;&#114;&#x6f;&#118;&#x69;&#x67;&#x61;&#116;&#116;&#x69;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#108;&#x6f;&#114;&#x65;&#110;&#122;&#x6f;&#46;&#114;&#x6f;&#118;&#x69;&#x67;&#x61;&#116;&#116;&#x69;&#32;&#x61;&#116;&#32;&#x67;&#x6d;&#x61;&#x69;&#108;&#32;&#100;&#x6f;&#116;&#32;&#x63;&#x6f;&#x6d;</noscript> or to add your own solution to the book and create a pull request!</p>
+<h2 id="how-to-use-this-book">How to use this book</h2>
+<p>The book is written in <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> and translated to HTML using <a href="https://pandoc.org/">Pandoc</a>. If you have Bash and Pandoc installed on your system (and the Pandoc executable is in your path) you can compile the book from the source by running the <code>to_html.sh</code> script.</p>
+<p>This is not a book to be read in one take. On the contrary, it should be considered as a collection of tips &amp; tricks to be referred to when the need arises.</p>
+<p>I plan to add as many figures and examples as possible. These will be included in the source of the book.</p>
 <h1 id="bash">Bash</h1>
 <h2 id="useful-shortcuts">Useful shortcuts</h2>
 <ul>
@@ -58,8 +72,7 @@
 <h2 id="xmgrace">xmgrace</h2>
 <h1 id="ssh">SSH</h1>
 <h2 id="escape-sequences">Escape sequences</h2>
-<p><a href="https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/">Source</a></p>
-<p>OpenSSH provides a variety of escape sequences that can be used during SSH sessions, even when the terminal is unresponsive. Typing <code>~?</code> (a tilde followed by a question mark) during an SSH session will print the list of available escape sequences which, with my OpenSSH client v7.2, looks like</p>
+<p>OpenSSH provides a variety of escape sequences that can be used during SSH sessions, even when the terminal is unresponsive <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. Typing <code>~?</code> (a tilde followed by a question mark) during an SSH session will print the list of available escape sequences which, with my OpenSSH client v7.2, looks like</p>
 <pre><code>~.   - terminate connection (and any multiplexed sessions)
 ~B   - send a BREAK to the remote system
 ~C   - open a command line
@@ -105,5 +118,11 @@
 <li>Create a new layer (same width and height as the figure) and put it underneath all other layers</li>
 <li>Fill the layer with the background colour you want your picture to fade to at the border (usually black)</li>
 </ol>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p><a href="https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/" class="uri">https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/</a><a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
 </body>
 </html>
