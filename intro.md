@@ -7,8 +7,16 @@ These notes contain many tricks of the trade I routinely use during my everyday 
 
 ## How to use this book
 
-The book is written in [Markdown](https://en.wikipedia.org/wiki/Markdown) and translated to HTML using [Pandoc](https://pandoc.org/). If you have Bash and Pandoc installed on your system (and the Pandoc executable is in your path) you can compile the book from the source by running the `to_html.sh` script.
+The book is written in [Markdown](https://en.wikipedia.org/wiki/Markdown) and translated to HTML using [Pandoc](https://pandoc.org/).
+
+The `tricks.md` and `tricks.html` files contain the entirety of the book in Markdown and HTML format, respectively.
+
+If you want to change the content of the book just edit one or more chapter files and then, if you have Bash and Pandoc installed on your system (and the Pandoc executable is in your path) compile the book from the source by running the `compile.sh` script. This will generate the `tricks.md`,  `tricks.html` and `README.md` files.
 
 This is not a book to be read in one take. On the contrary, it should be considered as a collection of tips & tricks to be referred to when the need arises.
 
 I plan to add as many figures and examples as possible. These will be included in the source of the book.
+
+[![License: CC BY 4.0](https://licensebuttons.net/l/by/4.0/80x15.png)](https://creativecommons.org/licenses/by/4.0/)
+
+---

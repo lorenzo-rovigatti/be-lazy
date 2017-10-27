@@ -28,6 +28,11 @@
 </ul></li>
 <li><a href="#ssh">SSH</a>
 <ul>
+<li><a href="#how-to-avoid-wasting-time">How to avoid wasting time</a>
+<ul>
+<li><a href="#ssh-keys">SSH keys</a></li>
+<li><a href="#ssh-config-file">SSH config file</a></li>
+</ul></li>
 <li><a href="#escape-sequences">Escape sequences</a></li>
 </ul></li>
 <li><a href="#debugging">Debugging</a>
@@ -49,9 +54,13 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 // -->
 </script><noscript>&#108;&#x6f;&#114;&#x65;&#110;&#122;&#x6f;&#46;&#114;&#x6f;&#118;&#x69;&#x67;&#x61;&#116;&#116;&#x69;&#32;&#x61;&#116;&#32;&#x67;&#x6d;&#x61;&#x69;&#108;&#32;&#100;&#x6f;&#116;&#32;&#x63;&#x6f;&#x6d;</noscript> or to add your own solution to the book and create a pull request!</p>
 <h2 id="how-to-use-this-book">How to use this book</h2>
-<p>The book is written in <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> and translated to HTML using <a href="https://pandoc.org/">Pandoc</a>. If you have Bash and Pandoc installed on your system (and the Pandoc executable is in your path) you can compile the book from the source by running the <code>to_html.sh</code> script.</p>
+<p>The book is written in <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> and translated to HTML using <a href="https://pandoc.org/">Pandoc</a>.</p>
+<p>The <code>tricks.md</code> and <code>tricks.html</code> files contain the entirety of the book in Markdown and HTML format, respectively.</p>
+<p>If you want to change the content of the book just edit one or more chapter files and then, if you have Bash and Pandoc installed on your system (and the Pandoc executable is in your path) compile the book from the source by running the <code>compile.sh</code> script. This will generate the <code>tricks.md</code>, <code>tricks.html</code> and <code>README.md</code> files.</p>
 <p>This is not a book to be read in one take. On the contrary, it should be considered as a collection of tips &amp; tricks to be referred to when the need arises.</p>
 <p>I plan to add as many figures and examples as possible. These will be included in the source of the book.</p>
+<p><a href="https://creativecommons.org/licenses/by/4.0/"><img src="https://licensebuttons.net/l/by/4.0/80x15.png" alt="License: CC BY 4.0" /></a></p>
+<hr />
 <h1 id="bash">Bash</h1>
 <h2 id="useful-shortcuts">Useful shortcuts</h2>
 <ul>
@@ -71,8 +80,21 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <h1 id="plotting">Plotting</h1>
 <h2 id="xmgrace">xmgrace</h2>
 <h1 id="ssh">SSH</h1>
+<p>Connecting through <a href="https://en.wikipedia.org/wiki/Secure_Shell"><code>ssh</code></a> to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself <code>ssh</code>-ing to this or that computer quite often. If you have an account <code>lorenzo</code> on the <code>powercluster.cool.univ.com</code> machine, you can use the following command to establish a remote connection with it<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<pre><code>$ ssh lorenzo@powercluster.cool.univ.com</code></pre>
+<p>You will then be asked to input your password after which you will be given a shell on the remote machine. Some cautious (paranoid?) sys-admins like to disable the 22 port on which the ssh <a href="https://en.wikipedia.org/wiki/Daemon_(computing)">daemon</a> listens by default. If you try to connect to a remote machine and you receive a <code>Connection refused</code> error, this might be way. In order to connect through another port (port 123456, for instance) use the <code>-p</code> option, like this:</p>
+<pre><code>$ ssh -p 123456 lorenzo@powercluster.cool.univ.com</code></pre>
+<p><strong>Nota Bene:</strong> if you are using <code>scp</code> to copy files from/to a remote machine that accepts <code>ssh</code> connections only through a non-22 port, make sure you add <code>-P port</code> (with a capital <code>P</code>) and not <code>-p port</code> like you would do with <code>ssh</code>.</p>
+<h2 id="how-to-avoid-wasting-time">How to avoid wasting time</h2>
+<p>If you find yourself typing the commands written above over and over, you will quickly realise how annoying it can get, especially if you have multiple computers you often connect to<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. There are two (complementary) ways to save a lot of keystrokes:</p>
+<ol style="list-style-type: decimal">
+<li>Set up ssh keys</li>
+<li>Set up the list of hosts in the ssh config file</li>
+</ol>
+<h3 id="ssh-keys">SSH keys</h3>
+<h3 id="ssh-config-file">SSH config file</h3>
 <h2 id="escape-sequences">Escape sequences</h2>
-<p>OpenSSH provides a variety of escape sequences that can be used during SSH sessions, even when the terminal is unresponsive <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. Typing <code>~?</code> (a tilde followed by a question mark) during an SSH session will print the list of available escape sequences which, with my OpenSSH client v7.2, looks like</p>
+<p>OpenSSH provides a variety of escape sequences that can be used during SSH sessions, even when the terminal is unresponsive <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>. Typing <code>~?</code> (a tilde followed by a question mark) during an SSH session will print the list of available escape sequences which, with my OpenSSH client v7.2, looks like</p>
 <pre><code>~.   - terminate connection (and any multiplexed sessions)
 ~B   - send a BREAK to the remote system
 ~C   - open a command line
@@ -83,6 +105,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 ~&amp;   - background ssh (when waiting for connections to terminate)
 ~?   - this message
 ~~   - send the escape character by typing it twice</code></pre>
+<p>The most useful escape sequence is undoubtly <code>~.</code> (a tilde followed by a dot), which terminates the connection even when the terminal is unresponsive. This comes in very handy when either your connection or the remote machine's connection goes down and you want to get your terminal back.</p>
 <p><strong>Nota Bene:</strong> <code>~</code> (the tilde character) should be the <em>very</em> first character on the command line.</p>
 <h1 id="debugging">Debugging</h1>
 <h2 id="gdb">GDB</h2>
@@ -121,7 +144,9 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p><a href="https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/" class="uri">https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/</a><a href="#fnref1">↩</a></p></li>
+<li id="fn1"><p>In the following I will assume you are using the [OpenSSH][https://www.openssh.com/] client<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>It is not uncommon (at least not for me 😄) to have ten or more open connections at once!<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p><a href="https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/" class="uri">https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/</a><a href="#fnref3">↩</a></p></li>
 </ol>
 </div>
 </body>
