@@ -1,7 +1,7 @@
 
 # SSH
 
-Connecting through [`ssh`](https://en.wikipedia.org/wiki/Secure_Shell) to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself `ssh`-ing to this or that computer quite often. If you have an account `lorenzo` on the `powercluster.cool.univ.com` machine, you can use the following command to establish a remote connection with it[^ssh_openssh]
+Connecting through [SSH](https://en.wikipedia.org/wiki/Secure_Shell) to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself SSH-ing to this or that computer quite often. If you have an account `lorenzo` on the `powercluster.cool.univ.com` machine, you can use the following command to establish a remote connection with it[^ssh_openssh]
 
     $ ssh lorenzo@powercluster.cool.univ.com
 
@@ -9,7 +9,7 @@ You will then be asked to input your password after which you will be given a sh
 
     $ ssh -p 123456 lorenzo@powercluster.cool.univ.com
     
-**Nota Bene:** if you are using `scp` to copy files from/to a remote machine that accepts `ssh` connections only through a non-22 port, make sure you add `-P port` (with a capital `P`) and not `-p port` like you would do with `ssh`.
+**Nota Bene:** if you are using `scp` to copy files from/to a remote machine that accepts SSH connections only through a non-22 port, make sure you add `-P port` (with a capital `P`) and not `-p port` like you would do with `ssh`.
 
 ## How to avoid wasting time
 
@@ -19,6 +19,24 @@ If you find yourself typing the commands written above over and over, you will q
 2. Set up the list of hosts in the ssh config file
 
 ### SSH keys
+
+I will not delve into the technicalities of SSH keys because I am not expert and because I do not think this is the right place to have such a discussion. If you are interested you can find many resources online, starting, for instance, from [here](https://www.ssh.com/ssh/key/).
+
+Here it suffices to know that you can set up the SSH connection between your local machine and a remote one so that you will not have to enter any password when using it. In order to do so, you will have to first generate an *SSH key* on your local machine. This can be done with the following command
+
+	$ ssh-keygen -t rsa
+
+The first thing you will be asked is where to store the key. If you leave the field empty the key will be saved in the `~/.ssh/id_rsa` location, with `~` being your home directory. You will be then asked twice to enter a passphrase, which can be left empty. There can be security reasons why you would want to enter a non-empty passphrase. However, using a non-empty passphrase would defeat the purpose of this section, as it would make SSH ask for that passphrase every time you want to login on the remote machines you have copied your key to. In the following I will assume you saved the key to the default location and did not enter a passphrase during the key generation.
+
+On many systems there exists the `ssh-copy-id` utility that copies your key over to the right position on the remote machine. If this is your case just call it with the command line options you would use if you were to connect to the remote machine through the usual SSH command. For example,
+
+	$ ssh-copy-id lorenzo@powercluster.cool.univ.com
+	
+or, if you need to use a custom port:
+
+	$ ssh-copy-id -p 123456 lorenzo@powercluster.cool.univ.com
+
+if everything goes smoothly this is the last time you will have to enter your password to connect to that specific remote computer :smile:
 
 ### SSH config file
 

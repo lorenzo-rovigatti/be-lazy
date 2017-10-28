@@ -80,11 +80,11 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <h1 id="plotting">Plotting</h1>
 <h2 id="xmgrace">xmgrace</h2>
 <h1 id="ssh">SSH</h1>
-<p>Connecting through <a href="https://en.wikipedia.org/wiki/Secure_Shell"><code>ssh</code></a> to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself <code>ssh</code>-ing to this or that computer quite often. If you have an account <code>lorenzo</code> on the <code>powercluster.cool.univ.com</code> machine, you can use the following command to establish a remote connection with it<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p>Connecting through <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself SSH-ing to this or that computer quite often. If you have an account <code>lorenzo</code> on the <code>powercluster.cool.univ.com</code> machine, you can use the following command to establish a remote connection with it<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <pre><code>$ ssh lorenzo@powercluster.cool.univ.com</code></pre>
 <p>You will then be asked to input your password after which you will be given a shell on the remote machine. Some cautious (paranoid?) sys-admins like to disable the 22 port on which the ssh <a href="https://en.wikipedia.org/wiki/Daemon_(computing)">daemon</a> listens by default. If you try to connect to a remote machine and you receive a <code>Connection refused</code> error, this might be way. In order to connect through another port (port 123456, for instance) use the <code>-p</code> option, like this:</p>
 <pre><code>$ ssh -p 123456 lorenzo@powercluster.cool.univ.com</code></pre>
-<p><strong>Nota Bene:</strong> if you are using <code>scp</code> to copy files from/to a remote machine that accepts <code>ssh</code> connections only through a non-22 port, make sure you add <code>-P port</code> (with a capital <code>P</code>) and not <code>-p port</code> like you would do with <code>ssh</code>.</p>
+<p><strong>Nota Bene:</strong> if you are using <code>scp</code> to copy files from/to a remote machine that accepts SSH connections only through a non-22 port, make sure you add <code>-P port</code> (with a capital <code>P</code>) and not <code>-p port</code> like you would do with <code>ssh</code>.</p>
 <h2 id="how-to-avoid-wasting-time">How to avoid wasting time</h2>
 <p>If you find yourself typing the commands written above over and over, you will quickly realise how annoying it can get, especially if you have multiple computers you often connect to<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. There are two (complementary) ways to save a lot of keystrokes:</p>
 <ol style="list-style-type: decimal">
@@ -92,6 +92,15 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li>Set up the list of hosts in the ssh config file</li>
 </ol>
 <h3 id="ssh-keys">SSH keys</h3>
+<p>I will not delve into the technicalities of SSH keys because I am not expert and because I do not think this is the right place to have such a discussion. If you are interested you can find many resources online, starting, for instance, from <a href="https://www.ssh.com/ssh/key/">here</a>.</p>
+<p>Here it suffices to know that you can set up the SSH connection between your local machine and a remote one so that you will not have to enter any password when using it. In order to do so, you will have to first generate an <em>SSH key</em> on your local machine. This can be done with the following command</p>
+<pre><code>$ ssh-keygen -t rsa</code></pre>
+<p>The first thing you will be asked is where to store the key. If you leave the field empty the key will be saved in the <code>~/.ssh/id_rsa</code> location, with <code>~</code> being your home directory. You will be then asked twice to enter a passphrase, which can be left empty. There can be security reasons why you would want to enter a non-empty passphrase. However, using a non-empty passphrase would defeat the purpose of this section, as it would make SSH ask for that passphrase every time you want to login on the remote machines you have copied your key to. In the following I will assume you saved the key to the default location and did not enter a passphrase during the key generation.</p>
+<p>On many systems there exists the <code>ssh-copy-id</code> utility that copies your key over to the right position on the remote machine. If this is your case just call it with the command line options you would use if you were to connect to the remote machine through the usual SSH command. For example,</p>
+<pre><code>$ ssh-copy-id lorenzo@powercluster.cool.univ.com</code></pre>
+<p>or, if you need to use a custom port:</p>
+<pre><code>$ ssh-copy-id -p 123456 lorenzo@powercluster.cool.univ.com</code></pre>
+<p>if everything goes smoothly this is the last time you will have to enter your password to connect to that specific remote computer 😄</p>
 <h3 id="ssh-config-file">SSH config file</h3>
 <h2 id="escape-sequences">Escape sequences</h2>
 <p>OpenSSH provides a variety of escape sequences that can be used during SSH sessions, even when the terminal is unresponsive <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>. Typing <code>~?</code> (a tilde followed by a question mark) during an SSH session will print the list of available escape sequences which, with my OpenSSH client v7.2, looks like</p>

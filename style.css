@@ -118,6 +118,8 @@ hr {
 }
 
 pre, code, kbd, samp {
+  background-color: #f6f8fa;
+  padding: 0.2em 0;
   color: #000;
   font-family: monospace, monospace;
   _font-family: 'courier new', monospace;
@@ -128,6 +130,8 @@ pre {
   white-space: pre;
   white-space: pre-wrap;
   word-wrap: break-word;
+  padding: 0.5em;
+  border: 1px solid #ccc;
 }
 
 b, strong {
