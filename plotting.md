@@ -1,5 +1,5 @@
 ---
 
-# Plotting
+# ~~Plotting~~
 
-## xmgrace
+## ~~xmgrace~~

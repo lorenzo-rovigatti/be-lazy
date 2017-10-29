@@ -9,9 +9,17 @@ by Lorenzo Rovigatti
 -   [Introduction](#introduction)
     -   [How to use this book](#how-to-use-this-book)
 -   [Bash](#bash)
+    -   [Files and directories](#files-and-directories)
+    -   [Redirection and piping](#redirection-and-piping)
+    -   ["if" statements](#if-statements)
+    -   ["for" loops](#for-loops)
     -   [Useful shortcuts](#useful-shortcuts)
--   [Plotting](#plotting)
-    -   [xmgrace](#xmgrace)
+-   [~~Command-line tools~~](#command-line-tools)
+    -   [~~AWK~~](#awk)
+    -   [~~cat, cut and paste~~](#cat-cut-and-paste)
+    -   [~~grep, find and locate~~](#grep-find-and-locate)
+-   [~~Plotting~~](#plotting)
+    -   [~~xmgrace~~](#xmgrace)
 -   [SSH](#ssh)
     -   [How to avoid wasting time](#how-to-avoid-wasting-time)
         -   [SSH keys](#ssh-keys)
@@ -73,6 +81,30 @@ included in the source of the book.
 Bash
 ====
 
+In the following I will assume that Bash is the default shell of your
+system and that you know how to start a new terminal, which usually
+boils down to writing "terminal" in your OS' search bar and starting up
+the first search result.
+
+[Bash](https://www.gnu.org/software/bash/) is probably the most common
+[Unix shell](https://en.wikipedia.org/wiki/Unix_shell). It is the
+default login shells of many LInux distributions, as well as of Apple's
+Mac OS X. For our purposes, Bash is the command line through which we
+communicate with and operate on the files and directories stored on the
+filesystem.
+
+Files and directories
+---------------------
+
+Redirection and piping
+----------------------
+
+"if" statements
+---------------
+
+"for" loops
+-----------
+
 Useful shortcuts
 ----------------
 
@@ -94,11 +126,25 @@ Useful shortcuts
 
 ------------------------------------------------------------------------
 
-Plotting
-========
+~~Command-line tools~~
+======================
 
-xmgrace
+~~AWK~~
 -------
+
+~~cat, cut and paste~~
+----------------------
+
+~~grep, find and locate~~
+-------------------------
+
+------------------------------------------------------------------------
+
+~~Plotting~~
+============
+
+~~xmgrace~~
+-----------
 
 ------------------------------------------------------------------------
 

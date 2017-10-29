@@ -132,6 +132,7 @@ pre {
   word-wrap: break-word;
   padding: 0.5em;
   border: 1px solid #ccc;
+  overflow: auto;
 }
 
 b, strong {

@@ -1,9 +1,9 @@
 ---
  
-# Command-line tools
+# ~~Command-line tools~~
 
-## AWK
+## ~~AWK~~
 
-## cat, cut and paste
+## ~~cat, cut and paste~~
 
-## grep, find and locate
+## ~~grep, find and locate~~

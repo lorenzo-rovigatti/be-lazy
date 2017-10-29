@@ -20,11 +20,21 @@
 </ul></li>
 <li><a href="#bash">Bash</a>
 <ul>
+<li><a href="#files-and-directories">Files and directories</a></li>
+<li><a href="#redirection-and-piping">Redirection and piping</a></li>
+<li><a href="#if-statements">&quot;if&quot; statements</a></li>
+<li><a href="#for-loops">&quot;for&quot; loops</a></li>
 <li><a href="#useful-shortcuts">Useful shortcuts</a></li>
 </ul></li>
-<li><a href="#plotting">Plotting</a>
+<li><a href="#command-line-tools"><del>Command-line tools</del></a>
 <ul>
-<li><a href="#xmgrace">xmgrace</a></li>
+<li><a href="#awk"><del>AWK</del></a></li>
+<li><a href="#cat-cut-and-paste"><del>cat, cut and paste</del></a></li>
+<li><a href="#grep-find-and-locate"><del>grep, find and locate</del></a></li>
+</ul></li>
+<li><a href="#plotting"><del>Plotting</del></a>
+<ul>
+<li><a href="#xmgrace"><del>xmgrace</del></a></li>
 </ul></li>
 <li><a href="#ssh">SSH</a>
 <ul>
@@ -62,6 +72,12 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p><a href="https://creativecommons.org/licenses/by/4.0/"><img src="https://licensebuttons.net/l/by/4.0/80x15.png" alt="License: CC BY 4.0" /></a></p>
 <hr />
 <h1 id="bash">Bash</h1>
+<p>In the following I will assume that Bash is the default shell of your system and that you know how to start a new terminal, which usually boils down to writing &quot;terminal&quot; in your OS' search bar and starting up the first search result.</p>
+<p><a href="https://www.gnu.org/software/bash/">Bash</a> is probably the most common <a href="https://en.wikipedia.org/wiki/Unix_shell">Unix shell</a>. It is the default login shells of many LInux distributions, as well as of Apple's Mac OS X. For our purposes, Bash is the command line through which we communicate with and operate on the files and directories stored on the filesystem.</p>
+<h2 id="files-and-directories">Files and directories</h2>
+<h2 id="redirection-and-piping">Redirection and piping</h2>
+<h2 id="if-statements">&quot;if&quot; statements</h2>
+<h2 id="for-loops">&quot;for&quot; loops</h2>
 <h2 id="useful-shortcuts">Useful shortcuts</h2>
 <ul>
 <li><code>!PATTERN</code> execute the most recent command in the shell history that begins with PATTERN (<em>e.g.</em> <code>!xm</code> will likely execute the last <code>xmgrace</code> command issued)</li>
@@ -78,8 +94,13 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><code>ctrl + s</code> forward interactive command search (<strong>NB:</strong> <code>stty -ixon</code> should be first added to .bashrc)</li>
 </ul>
 <hr />
-<h1 id="plotting">Plotting</h1>
-<h2 id="xmgrace">xmgrace</h2>
+<h1 id="command-line-tools"><del>Command-line tools</del></h1>
+<h2 id="awk"><del>AWK</del></h2>
+<h2 id="cat-cut-and-paste"><del>cat, cut and paste</del></h2>
+<h2 id="grep-find-and-locate"><del>grep, find and locate</del></h2>
+<hr />
+<h1 id="plotting"><del>Plotting</del></h1>
+<h2 id="xmgrace"><del>xmgrace</del></h2>
 <hr />
 <h1 id="ssh">SSH</h1>
 <p>Connecting through <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself SSH-ing to this or that computer quite often. If you have an account <code>lorenzo</code> on the <code>powercluster.cool.univ.com</code> machine, you can use the following command to establish a remote connection with it<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
