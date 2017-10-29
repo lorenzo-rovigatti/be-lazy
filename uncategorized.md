@@ -1,3 +1,4 @@
+---
 
 # Uncategorized
 
@@ -36,4 +37,3 @@ The `-ovc xvid` controls the type of output and may not be suitable on all syste
 7. Turn white into alpha (Colours &rarr; Colour to Alpha)
 8. Create a new layer (same width and height as the figure) and put it underneath all other layers
 9. Fill the layer with the background colour you want your picture to fade to at the border (usually black)
-

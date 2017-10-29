@@ -18,5 +18,3 @@ This is not a book to be read in one take. On the contrary, it should be conside
 I plan to add as many figures and examples as possible. These will be included in the source of the book.
 
 [![License: CC BY 4.0](https://licensebuttons.net/l/by/4.0/80x15.png)](https://creativecommons.org/licenses/by/4.0/)
-
----
