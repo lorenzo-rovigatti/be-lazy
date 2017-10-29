@@ -77,8 +77,10 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><code>ctrl + r</code> backward interactive command search</li>
 <li><code>ctrl + s</code> forward interactive command search (<strong>NB:</strong> <code>stty -ixon</code> should be first added to .bashrc)</li>
 </ul>
+<hr />
 <h1 id="plotting">Plotting</h1>
 <h2 id="xmgrace">xmgrace</h2>
+<hr />
 <h1 id="ssh">SSH</h1>
 <p>Connecting through <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself SSH-ing to this or that computer quite often. If you have an account <code>lorenzo</code> on the <code>powercluster.cool.univ.com</code> machine, you can use the following command to establish a remote connection with it<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <pre><code>$ ssh lorenzo@powercluster.cool.univ.com</code></pre>
@@ -96,12 +98,46 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>Here it suffices to know that you can set up the SSH connection between your local machine and a remote one so that you will not have to enter any password when using it. In order to do so, you will have to first generate an <em>SSH key</em> on your local machine. This can be done with the following command</p>
 <pre><code>$ ssh-keygen -t rsa</code></pre>
 <p>The first thing you will be asked is where to store the key. If you leave the field empty the key will be saved in the <code>~/.ssh/id_rsa</code> location, with <code>~</code> being your home directory. You will be then asked twice to enter a passphrase, which can be left empty. There can be security reasons why you would want to enter a non-empty passphrase. However, using a non-empty passphrase would defeat the purpose of this section, as it would make SSH ask for that passphrase every time you want to login on the remote machines you have copied your key to. In the following I will assume you saved the key to the default location and did not enter a passphrase during the key generation.</p>
+<p><strong>Nota Bene:</strong> the key you have generated is a (sort of) fingerprint of your user on the <em>specific</em> local machine you are generating it on. This means that you have to undergo this procedure once for each computer you connect <em>from</em>, regardless of the number of remote machines you will connect <em>to</em>.</p>
 <p>On many systems there exists the <code>ssh-copy-id</code> utility that copies your key over to the right position on the remote machine. If this is your case just call it with the command line options you would use if you were to connect to the remote machine through the usual SSH command. For example,</p>
 <pre><code>$ ssh-copy-id lorenzo@powercluster.cool.univ.com</code></pre>
 <p>or, if you need to use a custom port:</p>
 <pre><code>$ ssh-copy-id -p 123456 lorenzo@powercluster.cool.univ.com</code></pre>
 <p>if everything goes smoothly this is the last time you will have to enter your password to connect to that specific remote computer 😄</p>
+<p>If your system lacks <code>ssh-copy-id</code> you will have to manually add your public key to the list of <em>authorized keys</em> stored on the remote machine. In order to do so you will have to</p>
+<ol style="list-style-type: decimal">
+<li><p>copy your public key, stored in the <code>~/.ssh/id_rsa.pub</code> file (here I am assuming your <code>ssh-keygen</code> was told to put the key in the default location). You should expect it to look like this:</p>
+<pre>ssh-rsa GIBBERISH lorenzo@lorenzo-desktop</pre>
+where <code>GIBBERISH</code> is a very long string of seemingly random characters and the last token is just <code>your_username@your_host</code></li>
+<li><p>establish a connection with the target remote machine and, with your preferred editor, open the <code>~/.ssh/authorized_keys</code> file. Paste your public key on a new line, save and exit</p></li>
+</ol>
+<p><em>Et voilà</em>: SSH will not prompt you for the password when accessing this specific remote machine any more!</p>
+<p><strong>Nota Bene:</strong> the aforementioned procedure lets you SSH passwordlessly from <code>user_on_A_host@A_host</code> to <code>user_on_B_host@B_host</code>. If you change either the user or the host from which you connect <em>from</em>, you will have to redo the proceudre. If you change either the user or the host you connect <em>to</em> you will have to update the corresponding <code>authorized_keys</code> file by adding the public key you already have.</p>
 <h3 id="ssh-config-file">SSH config file</h3>
+<p>In this section we will see how to transform this:</p>
+<pre><code>$ ssh -p 123456 lorenzo@powercluster.cool.univ.com</code></pre>
+<p>Into this:</p>
+<pre><code>$ ssh pc</code></pre>
+<p>Looks neat, doesn't it? With SSH, just open the file <code>~/.ssh/config</code> (which may not exist yet) and, for each combination of <code>user@host</code> you want to create aliases for, add a few lines that specify the parameters for that specific connection, like this:</p>
+<pre><code>Host pc
+HostName powercluster.cool.univ.com
+User lorenzo
+Port 123456</code></pre>
+<p>Save and exit. From now on you will be able to use <code>ssh pc</code> in place of <code>ssh -p 123456 lorenzo@powercluster.cool.univ.com</code>: you do not need to reload or restart anything.</p>
+<p>A few comments:</p>
+<ol style="list-style-type: decimal">
+<li>You can omit the <code>User</code> and <code>Port</code> fields if the default values (the current user and port 22, respectively) are fine</li>
+<li><p>You can set default values for all or some hosts by using wildcards. For example</p>
+<pre>
+Host *univ.com
+User rovigatti
+
+Host *
+User lorenzo
+</pre>
+<p><strong>Nota Bene:</strong> the order with which you list the hosts is very important! SSH parses the <code>config</code> file from the top downwards and uses the <em>first</em> value found for each option whose corresponding <code>Host</code> matches the hostname given on the command line. For instance, in the above listing, inverting the order of the hosts will make SSH always use the username <code>lorenzo</code>, even for hostnames that match the <code>*univ.com</code> pattern.</p></li>
+<li><p>The list of available fields is <a href="https://www.ssh.com/ssh/config/">here</a>. A simpler tutorial can be found here <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client">here</a></p></li>
+</ol>
 <h2 id="escape-sequences">Escape sequences</h2>
 <p>OpenSSH provides a variety of escape sequences that can be used during SSH sessions, even when the terminal is unresponsive <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>. Typing <code>~?</code> (a tilde followed by a question mark) during an SSH session will print the list of available escape sequences which, with my OpenSSH client v7.2, looks like</p>
 <pre><code>~.   - terminate connection (and any multiplexed sessions)
@@ -116,6 +152,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 ~~   - send the escape character by typing it twice</code></pre>
 <p>The most useful escape sequence is undoubtly <code>~.</code> (a tilde followed by a dot), which terminates the connection even when the terminal is unresponsive. This comes in very handy when either your connection or the remote machine's connection goes down and you want to get your terminal back.</p>
 <p><strong>Nota Bene:</strong> <code>~</code> (the tilde character) should be the <em>very</em> first character on the command line.</p>
+<hr />
 <h1 id="debugging">Debugging</h1>
 <h2 id="gdb">GDB</h2>
 <p>Here is a a very short and non-comprehensive list of useful GDB commands:</p>
@@ -128,6 +165,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><code>info locals</code> display the name and value of all local variables.</li>
 <li><code>disable 1</code> disable breakpoint number 1.</li>
 </ul>
+<hr />
 <h1 id="uncategorized">Uncategorized</h1>
 <h2 id="making-movies">Making movies</h2>
 <p>We would like to generate a movie out of a (maybe very long) list of png images. We first create a file containing the list of png files sorted according to the order with which they should appear in the movie. If the names of the files are <code>img-1.png</code>, <code>img-2.png</code>, <em>etc.</em>, this can be accomplished by typing</p>

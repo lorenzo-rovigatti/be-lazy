@@ -92,11 +92,15 @@ Useful shortcuts
 -   `ctrl + s` forward interactive command search (**NB:** `stty -ixon`
     should be first added to .bashrc)
 
+------------------------------------------------------------------------
+
 Plotting
 ========
 
 xmgrace
 -------
+
+------------------------------------------------------------------------
 
 SSH
 ===
@@ -165,6 +169,12 @@ want to login on the remote machines you have copied your key to. In the
 following I will assume you saved the key to the default location and
 did not enter a passphrase during the key generation.
 
+**Nota Bene:** the key you have generated is a (sort of) fingerprint of
+your user on the *specific* local machine you are generating it on. This
+means that you have to undergo this procedure once for each computer you
+connect *from*, regardless of the number of remote machines you will
+connect *to*.
+
 On many systems there exists the `ssh-copy-id` utility that copies your
 key over to the right position on the remote machine. If this is your
 case just call it with the command line options you would use if you
@@ -180,7 +190,81 @@ or, if you need to use a custom port:
 if everything goes smoothly this is the last time you will have to enter
 your password to connect to that specific remote computer 😄
 
+If your system lacks `ssh-copy-id` you will have to manually add your
+public key to the list of *authorized keys* stored on the remote
+machine. In order to do so you will have to
+
+1.  copy your public key, stored in the `~/.ssh/id_rsa.pub` file (here I
+    am assuming your `ssh-keygen` was told to put the key in the
+    default location). You should expect it to look like this:
+
+    <pre>ssh-rsa GIBBERISH lorenzo@lorenzo-desktop</pre>
+    where `GIBBERISH` is a very long string of seemingly random
+    characters and the last token is just `your_username@your_host`
+2.  establish a connection with the target remote machine and, with your
+    preferred editor, open the `~/.ssh/authorized_keys` file. Paste your
+    public key on a new line, save and exit
+
+*Et voilà*: SSH will not prompt you for the password when accessing this
+specific remote machine any more!
+
+**Nota Bene:** the aforementioned procedure lets you SSH passwordlessly
+from `user_on_A_host@A_host` to `user_on_B_host@B_host`. If you change
+either the user or the host from which you connect *from*, you will have
+to redo the proceudre. If you change either the user or the host you
+connect *to* you will have to update the corresponding `authorized_keys`
+file by adding the public key you already have.
+
 ### SSH config file
+
+In this section we will see how to transform this:
+
+    $ ssh -p 123456 lorenzo@powercluster.cool.univ.com
+
+Into this:
+
+    $ ssh pc
+
+Looks neat, doesn't it? With SSH, just open the file `~/.ssh/config`
+(which may not exist yet) and, for each combination of `user@host` you
+want to create aliases for, add a few lines that specify the parameters
+for that specific connection, like this:
+
+    Host pc
+    HostName powercluster.cool.univ.com
+    User lorenzo
+    Port 123456
+
+Save and exit. From now on you will be able to use `ssh pc` in place of
+`ssh -p 123456 lorenzo@powercluster.cool.univ.com`: you do not need to
+reload or restart anything.
+
+A few comments:
+
+1.  You can omit the `User` and `Port` fields if the default values (the
+    current user and port 22, respectively) are fine
+2.  You can set default values for all or some hosts by using wildcards.
+    For example
+
+    <pre>
+    Host *univ.com
+    User rovigatti
+
+    Host *
+    User lorenzo
+    </pre>
+    **Nota Bene:** the order with which you list the hosts is very
+    important! SSH parses the `config` file from the top downwards and
+    uses the *first* value found for each option whose corresponding
+    `Host` matches the hostname given on the command line. For instance,
+    in the above listing, inverting the order of the hosts will make SSH
+    always use the username `lorenzo`, even for hostnames that match the
+    `*univ.com` pattern.
+
+3.  The list of available fields is
+    [here](https://www.ssh.com/ssh/config/). A simpler tutorial can be
+    found here
+    [here](https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client)
 
 Escape sequences
 ----------------
@@ -211,6 +295,8 @@ terminal back.
 **Nota Bene:** `~` (the tilde character) should be the *very* first
 character on the command line.
 
+------------------------------------------------------------------------
+
 Debugging
 =========
 
@@ -229,6 +315,8 @@ commands:
 -   `ptype` output the type of a variable.
 -   `info locals` display the name and value of all local variables.
 -   `disable 1` disable breakpoint number 1.
+
+------------------------------------------------------------------------
 
 Uncategorized
 =============
