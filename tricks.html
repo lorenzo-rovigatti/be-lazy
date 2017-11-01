@@ -20,11 +20,12 @@
 </ul></li>
 <li><a href="#bash">Bash</a>
 <ul>
-<li><a href="#files-and-directories">Files and directories</a></li>
 <li><a href="#redirection-and-piping">Redirection and piping</a></li>
+<li><a href="#files-and-directories">Files and directories</a></li>
 <li><a href="#if-statements">&quot;if&quot; statements</a></li>
 <li><a href="#for-loops">&quot;for&quot; loops</a></li>
 <li><a href="#useful-shortcuts">Useful shortcuts</a></li>
+<li><a href="#bash_philosophy-httpwww.catb.orgesrwritingstaouphtmlch01s06.html">[^bash_philosophy]: &lt;http://www.catb.org/~esr/writings/taoup/html/ch01s06.html&gt;</a></li>
 </ul></li>
 <li><a href="#command-line-tools"><del>Command-line tools</del></a>
 <ul>
@@ -75,8 +76,17 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <h1 id="bash">Bash</h1>
 <p>In the following I will assume that Bash is the default shell of your system and that you know how to start a new terminal, which usually boils down to writing &quot;terminal&quot; in your OS' search bar and starting up the first search result.</p>
 <p><a href="https://www.gnu.org/software/bash/">Bash</a> is probably the most common <a href="https://en.wikipedia.org/wiki/Unix_shell">Unix shell</a>. It is the default login shells of many LInux distributions, as well as of Apple's Mac OS X. For our purposes, Bash is the command line through which we communicate with and operate on the files and directories stored on the filesystem.</p>
-<h2 id="files-and-directories">Files and directories</h2>
 <h2 id="redirection-and-piping">Redirection and piping</h2>
+<p>The main strength of Bash (and of all the other shells) comes from the <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a>, which can be summarised as[^bash_philosophy]</p>
+<blockquote>
+<ol style="list-style-type: decimal">
+<li>Write programs that do one thing and do it well.</li>
+<li>Write programs to work together.</li>
+<li>Write programs to handle text streams, because that is a universal interface.</li>
+</ol>
+</blockquote>
+<p>The mechanism that makes it possible to pass as the input of a program the output of another program is called <em>piping</em>,</p>
+<h2 id="files-and-directories">Files and directories</h2>
 <h2 id="if-statements">&quot;if&quot; statements</h2>
 <h2 id="for-loops">&quot;for&quot; loops</h2>
 <h2 id="useful-shortcuts">Useful shortcuts</h2>
@@ -94,7 +104,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><code>ctrl + r</code> backward interactive command search</li>
 <li><code>ctrl + s</code> forward interactive command search (<strong>NB:</strong> <code>stty -ixon</code> should be first added to .bashrc)</li>
 </ul>
-<hr />
+<h2 id="bash_philosophy-httpwww.catb.orgesrwritingstaouphtmlch01s06.html">[^bash_philosophy]: <a href="http://www.catb.org/~esr/writings/taoup/html/ch01s06.html" class="uri">http://www.catb.org/~esr/writings/taoup/html/ch01s06.html</a></h2>
 <h1 id="command-line-tools"><del>Command-line tools</del></h1>
 <h2 id="awk"><del>AWK</del></h2>
 <h2 id="cat-cut-and-paste"><del>cat, cut and paste</del></h2>
@@ -195,11 +205,11 @@ User lorenzo
 <li>Install the NFS server. On Ubuntu, this boils down to installing the <code>nfs-kernel-server</code> package.</li>
 <li><p>Open (with root privilegies) the /etc/exports file. Add a line for each folder you want to export. The syntax is</p>
 <p><code>PATH_TO_DIRECTORY  CLIENT(OPTIONS)</code></p>
-<p>Note the lack of whitespace between CLIENT and the open parenthesis. The CLIENT field can be an IP address or a DNS name and can contain wildcards (<em>e.g.</em> <code>*</code> or <code>?</code>). The list of available options depend on the NFS server version and can be found online (for example <a href="https://linux.die.net/man/5/exports">here</a>. Valid configuration examples are</p>
+<p>Note the lack of whitespace between CLIENT and the open parenthesis. The CLIENT field can be an IP address or a DNS name and can contain wildcards (<em>e.g.</em> <code>*</code> or <code>?</code>). The list of available options depend on the NFS server version and can be found online (for example <a href="https://linux.die.net/man/5/exports">here</a>). Valid configuration examples are</p>
 <p><code>/home/lorenzo/RESULTS 192.168.0.10(rw,no_root_squash)</code> <code>/home/lorenzo/RESULTS *(ro,no_root_squash)</code></p>
 <p>The above lines export the <code>/home/lorenzo/RESULTS</code> directory in read/write mode for the client identified by the IP address <code>192.168.0.10</code> and in read-only mode for everybody else.</p></li>
 <li>Restart the NFS server. On many Linux distros this can be done with the command <code>sudo service nfs-kernel-server restart</code></li>
-<li>On the client, install the NFS client (<code>nfs-common</code> on Ubuntu)</li>
+<li>On the client, install the NFS client (the <code>nfs-common</code> package on Ubuntu)</li>
 <li><p>The remote filesystem can be mounted either manually (<code>sudo mount 192.168.0.1:/home/lorenzo/RESULTS /home/lorenzo/SERVER_RESULTS</code>) or automatically by adding a line like this to the <code>/etc/fstab</code> file:</p>
 <p><code>192.168.0.1:/home/lorenzo/RESULTS /home/lorenzo/SERVER_RESULTS nfs rw,user,auto 0 0</code></p>
 <p>and then using <code>sudo mount -a</code>. Here I assumed that the server has IP address <code>192.168.0.1</code> and that the directory <code>/home/lorenzo/CLIENT_RESULTS</code> exists on the client.</p></li>

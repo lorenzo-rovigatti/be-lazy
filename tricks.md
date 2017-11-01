@@ -9,11 +9,13 @@ by Lorenzo Rovigatti
 -   [Introduction](#introduction)
     -   [How to use this book](#how-to-use-this-book)
 -   [Bash](#bash)
-    -   [Files and directories](#files-and-directories)
     -   [Redirection and piping](#redirection-and-piping)
+    -   [Files and directories](#files-and-directories)
     -   ["if" statements](#if-statements)
     -   ["for" loops](#for-loops)
     -   [Useful shortcuts](#useful-shortcuts)
+    -   [\[\^bash\_philosophy\]:
+        <http://www.catb.org/~esr/writings/taoup/html/ch01s06.html>](#bash_philosophy-httpwww.catb.orgesrwritingstaouphtmlch01s06.html)
 -   [~~Command-line tools~~](#command-line-tools)
     -   [~~AWK~~](#awk)
     -   [~~cat, cut and paste~~](#cat-cut-and-paste)
@@ -94,11 +96,23 @@ Mac OS X. For our purposes, Bash is the command line through which we
 communicate with and operate on the files and directories stored on the
 filesystem.
 
-Files and directories
----------------------
-
 Redirection and piping
 ----------------------
+
+The main strength of Bash (and of all the other shells) comes from the
+[Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy), which
+can be summarised as\[\^bash\_philosophy\]
+
+> 1.  Write programs that do one thing and do it well.
+> 2.  Write programs to work together.
+> 3.  Write programs to handle text streams, because that is a
+>     universal interface.
+
+The mechanism that makes it possible to pass as the input of a program
+the output of another program is called *piping*,
+
+Files and directories
+---------------------
 
 "if" statements
 ---------------
@@ -125,7 +139,8 @@ Useful shortcuts
 -   `ctrl + s` forward interactive command search (**NB:** `stty -ixon`
     should be first added to .bashrc)
 
-------------------------------------------------------------------------
+\[\^bash\_philosophy\]: <http://www.catb.org/~esr/writings/taoup/html/ch01s06.html>
+-----------------------------------------------------------------------------------
 
 ~~Command-line tools~~
 ======================
@@ -389,7 +404,7 @@ directories.
     The CLIENT field can be an IP address or a DNS name and can contain
     wildcards (*e.g.* `*` or `?`). The list of available options depend
     on the NFS server version and can be found online (for example
-    [here](https://linux.die.net/man/5/exports). Valid configuration
+    [here](https://linux.die.net/man/5/exports)). Valid configuration
     examples are
 
     `/home/lorenzo/RESULTS 192.168.0.10(rw,no_root_squash)`
@@ -401,7 +416,8 @@ directories.
 
 3.  Restart the NFS server. On many Linux distros this can be done with
     the command `sudo service nfs-kernel-server restart`
-4.  On the client, install the NFS client (`nfs-common` on Ubuntu)
+4.  On the client, install the NFS client (the `nfs-common` package
+    on Ubuntu)
 5.  The remote filesystem can be mounted either manually
     (`sudo mount 192.168.0.1:/home/lorenzo/RESULTS /home/lorenzo/SERVER_RESULTS`)
     or automatically by adding a line like this to the `/etc/fstab`

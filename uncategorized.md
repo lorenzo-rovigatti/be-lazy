@@ -11,7 +11,7 @@
  
      ```PATH_TO_DIRECTORY  CLIENT(OPTIONS)```
      
-     Note the lack of whitespace between CLIENT and the open parenthesis. The CLIENT field can be an IP address or a DNS name and can contain wildcards (*e.g.* `*` or `?`). The list of available options depend on the NFS server version and can be found online (for example [here](https://linux.die.net/man/5/exports). Valid configuration examples are
+     Note the lack of whitespace between CLIENT and the open parenthesis. The CLIENT field can be an IP address or a DNS name and can contain wildcards (*e.g.* `*` or `?`). The list of available options depend on the NFS server version and can be found online (for example [here](https://linux.die.net/man/5/exports)). Valid configuration examples are
      
      ```/home/lorenzo/RESULTS 192.168.0.10(rw,no_root_squash)```
      ```/home/lorenzo/RESULTS *(ro,no_root_squash)```
@@ -19,7 +19,7 @@
      The above lines export the `/home/lorenzo/RESULTS` directory in read/write mode for the client identified by the IP address `192.168.0.10` and in read-only mode for everybody else.
      
  3. Restart the NFS server. On many Linux distros this can be done with the command `sudo service nfs-kernel-server restart`
- 4. On the client, install the NFS client (`nfs-common` on Ubuntu)
+ 4. On the client, install the NFS client (the `nfs-common` package on Ubuntu)
  5. The remote filesystem can be mounted either manually (`sudo mount 192.168.0.1:/home/lorenzo/RESULTS /home/lorenzo/SERVER_RESULTS`) or automatically by adding a line like this to the `/etc/fstab` file:
  
      ```192.168.0.1:/home/lorenzo/RESULTS /home/lorenzo/SERVER_RESULTS nfs rw,user,auto 0 0```
