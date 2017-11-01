@@ -2,6 +2,32 @@
 
 # Uncategorized
 
+## Setting up NFS
+
+[NFS](https://en.wikipedia.org/wiki/Network_File_System) (Network File System) is a protocol that makes it possible to remotely (and transparently) access a file system over the network. Here I will explain how to setup a remote machine (aka the *server*) so that a local machine (aka the *client*) can have access to one or more of its directories.
+
+ 1. Install the NFS server. On Ubuntu, this boils down to installing the `nfs-kernel-server` package.
+ 2. Open (with root privilegies) the /etc/exports file. Add a line for each folder you want to export. The syntax is
+ 
+     ```PATH_TO_DIRECTORY  CLIENT(OPTIONS)```
+     
+     Note the lack of whitespace between CLIENT and the open parenthesis. The CLIENT field can be an IP address or a DNS name and can contain wildcards (*e.g.* `*` or `?`). The list of available options depend on the NFS server version and can be found online (for example [here](https://linux.die.net/man/5/exports). Valid configuration examples are
+     
+     ```/home/lorenzo/RESULTS 192.168.0.10(rw,no_root_squash)```
+     ```/home/lorenzo/RESULTS *(ro,no_root_squash)```
+     
+     The above lines export the `/home/lorenzo/RESULTS` directory in read/write mode for the client identified by the IP address `192.168.0.10` and in read-only mode for everybody else.
+     
+ 3. Restart the NFS server. On many Linux distros this can be done with the command `sudo service nfs-kernel-server restart`
+ 4. On the client, install the NFS client (`nfs-common` on Ubuntu)
+ 5. The remote filesystem can be mounted either manually (`sudo mount 192.168.0.1:/home/lorenzo/RESULTS /home/lorenzo/SERVER_RESULTS`) or automatically by adding a line like this to the `/etc/fstab` file:
+ 
+     ```192.168.0.1:/home/lorenzo/RESULTS /home/lorenzo/SERVER_RESULTS nfs rw,user,auto 0 0```
+     
+     and then using `sudo mount -a`.  Here I assumed that the server has IP address `192.168.0.1` and that the directory `/home/lorenzo/CLIENT_RESULTS` exists on the client.
+     
+**Nota Bene:** on default installations, the shared directories are owned by the user and group identified by the `uid` and `gid` of the server, respectively. If the user on the client has a different `uid` and/or `gid`, its access to these directories may be limited. If this is the case (and if you are sure there will be no issues arising from such a drastic change) the best course of action is to change the user and group ids on either machine in order to make them match. This can done with the `usermod` command (*e.g.* `usermod -g 1110 -u 1205 lorenzo` will change lorenzo's `gid` and `uid` to 1110 and 1205, respectively). Note that `usermod` will change the ownership of all the files and directories that are in the user's home directory and are owned by them. The ownership of any other file or directory must be fixed manually.
+
 ## Making movies
 
 We would like to generate a movie out of a (maybe very long) list of png images. We first create a file containing the list of png files sorted according to the order with which they should appear in the movie. If the names of the files are `img-1.png`, `img-2.png`, *etc.*, this can be accomplished by typing
