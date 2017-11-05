@@ -20,8 +20,11 @@
 </ul></li>
 <li><a href="#bash">Bash</a>
 <ul>
-<li><a href="#redirection-and-piping">Redirection and piping</a></li>
 <li><a href="#files-and-directories">Files and directories</a></li>
+<li><a href="#redirection-and-piping">Redirection and piping</a>
+<ul>
+<li><a href="#inputoutput-redirection">Input/output redirection</a></li>
+</ul></li>
 <li><a href="#if-statements">&quot;if&quot; statements</a></li>
 <li><a href="#for-loops">&quot;for&quot; loops</a></li>
 <li><a href="#useful-shortcuts">Useful shortcuts</a></li>
@@ -76,6 +79,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <h1 id="bash">Bash</h1>
 <p>In the following I will assume that Bash is the default shell of your system and that you know how to start a new terminal, which usually boils down to writing &quot;terminal&quot; in your OS' search bar and starting up the first search result.</p>
 <p><a href="https://www.gnu.org/software/bash/">Bash</a> is probably the most common <a href="https://en.wikipedia.org/wiki/Unix_shell">Unix shell</a>. It is the default login shells of many LInux distributions, as well as of Apple's Mac OS X. For our purposes, Bash is the command line through which we communicate with and operate on the files and directories stored on the filesystem.</p>
+<h2 id="files-and-directories">Files and directories</h2>
+<p>The first task you will likely use the shell for is to browse through the filesystem to work with files and directories (create, delete, move or edit them, execute programs, <em>etc.</em>). But wait, what is the filesystem?</p>
 <h2 id="redirection-and-piping">Redirection and piping</h2>
 <p>The main strength of Bash (and of all the other shells) comes from the <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a>, which can be summarised as[^bash_philosophy]</p>
 <blockquote>
@@ -85,8 +90,20 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li>Write programs to handle text streams, because that is a universal interface.</li>
 </ol>
 </blockquote>
-<p>The mechanism that makes it possible to pass as the input of a program the output of another program is called <em>piping</em>,</p>
-<h2 id="files-and-directories">Files and directories</h2>
+<p>Most of the command-line utilities that can be find in a Unix-like environment (such as Linux, BSD, Mac OS X) follow, more or less closely, this philosophy. As a consequence of the wide adoption of the principles listed above, many of said utilities can perform only very specific duties. Moreover, most of the communication to and from these programs is text-based and carried out through their input and output streams. It is therefore very common to split the task at hand in <em>subtasks</em> that are performed by several programs in a serial fashion: each program manipulates an input and pass the resulting output to the next program. The mechanism that makes it possible to forward the output of a program to the input of another program is called <em>piping</em> and is signalled by the presence of the pipe sign, <sub>|</sub>. At the end of this process it is a common patter to <em>redirect</em> the final output to a file.</p>
+<h3 id="inputoutput-redirection">Input/output redirection</h3>
+<p>There are three standard input/output (I/O or just IO) streams: the standard input, or <code>stdin</code>, the standard output, or <code>stdout</code>, and the standard error, or <code>stderr</code>:</p>
+<ul>
+<li><code>stdin</code> is used to acquire (possibly interactive) input (see <em>e.g.</em> the <code>scanf()</code> or <code>fscanf(stdin)</code> C functions)</li>
+<li><code>stdout</code> is to print the <em>regular</em> output of the program (see <em>e.g.</em> the <code>printf()</code> or <code>fprintf(stdout)</code> C functions)</li>
+<li><code>stderr</code> is for printing warnings, diagnostics or error messages (see <em>e.g.</em> the <code>fprintf(stderr)</code> C function)</li>
+</ul>
+<p>In Bash, the default behaviour for programs that expect input is to prompt the user for input. However, the <code>stdin</code> can be redirected by using a <code>&lt;</code> sign. For example, a program <code>my_program</code> that reads from the standard input can be instead fed a file <code>my_input.txt</code> by using <code>my_program &lt; my_input.txt</code>.</p>
+<p>For the output streams, the default behaviour is to write them on screen. In order to redirect a output stream to file, use the <code>&gt;</code> sign. For example, <code>echo &quot;Hello beauty!&quot; &gt; msg.txt</code> will put the <code>&quot;Hello beauty&quot;</code> text in the <code>msg.txt</code> file.</p>
+<p>By contrast, the <code>stderr</code> can be redirected by using the <code>2&gt;</code> token. For example, <code>ls wrong_file 2&gt; error.txt</code> will put an error message (provided there is no file or directory named <code>wrong_file</code> in the current directory 😄) in the <code>error.txt</code> file.</p>
+<p>It is possible to redirect <strong>both</strong> <code>stdout</code> and <code>stderr</code> streams by using the <code>&amp;&gt;</code> sign.</p>
+<p>In general, all the above output redirection signs will write the output of the programs that are on their left-hand side to the files whose name is on their right-hand side, possibly overwriting any previous content. In order to <em>append</em>, rather than write, the output to those files is sufficient to add a <code>&gt;</code> to each token. Thus, <code>&gt;</code> becomes <code>&gt;&gt;</code>, <code>2&gt;</code> becomes <code>2&gt;&gt;</code> and <code>&amp;&gt;</code> becomes <code>&amp;&gt;&gt;</code>.</p>
+<p><strong>Nota Bene:</strong> all multi-character tokens used for redirection should not contain spaces. In other words, be careful: <code>&amp;&gt;</code> and <code>&amp; &gt;</code> are <strong>not</strong> the same thing.</p>
 <h2 id="if-statements">&quot;if&quot; statements</h2>
 <h2 id="for-loops">&quot;for&quot; loops</h2>
 <h2 id="useful-shortcuts">Useful shortcuts</h2>

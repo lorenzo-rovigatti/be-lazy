@@ -9,8 +9,9 @@ by Lorenzo Rovigatti
 -   [Introduction](#introduction)
     -   [How to use this book](#how-to-use-this-book)
 -   [Bash](#bash)
-    -   [Redirection and piping](#redirection-and-piping)
     -   [Files and directories](#files-and-directories)
+    -   [Redirection and piping](#redirection-and-piping)
+        -   [Input/output redirection](#inputoutput-redirection)
     -   ["if" statements](#if-statements)
     -   ["for" loops](#for-loops)
     -   [Useful shortcuts](#useful-shortcuts)
@@ -96,6 +97,14 @@ Mac OS X. For our purposes, Bash is the command line through which we
 communicate with and operate on the files and directories stored on the
 filesystem.
 
+Files and directories
+---------------------
+
+The first task you will likely use the shell for is to browse through
+the filesystem to work with files and directories (create, delete, move
+or edit them, execute programs, *etc.*). But wait, what is the
+filesystem?
+
 Redirection and piping
 ----------------------
 
@@ -108,11 +117,62 @@ can be summarised as\[\^bash\_philosophy\]
 > 3.  Write programs to handle text streams, because that is a
 >     universal interface.
 
-The mechanism that makes it possible to pass as the input of a program
-the output of another program is called *piping*,
+Most of the command-line utilities that can be find in a Unix-like
+environment (such as Linux, BSD, Mac OS X) follow, more or less closely,
+this philosophy. As a consequence of the wide adoption of the principles
+listed above, many of said utilities can perform only very specific
+duties. Moreover, most of the communication to and from these programs
+is text-based and carried out through their input and output streams. It
+is therefore very common to split the task at hand in *subtasks* that
+are performed by several programs in a serial fashion: each program
+manipulates an input and pass the resulting output to the next program.
+The mechanism that makes it possible to forward the output of a program
+to the input of another program is called *piping* and is signalled by
+the presence of the pipe sign, ~|~. At the end of this process it is a
+common patter to *redirect* the final output to a file.
 
-Files and directories
----------------------
+### Input/output redirection
+
+There are three standard input/output (I/O or just IO) streams: the
+standard input, or `stdin`, the standard output, or `stdout`, and the
+standard error, or `stderr`:
+
+-   `stdin` is used to acquire (possibly interactive) input (see *e.g.*
+    the `scanf()` or `fscanf(stdin)` C functions)
+-   `stdout` is to print the *regular* output of the program (see *e.g.*
+    the `printf()` or `fprintf(stdout)` C functions)
+-   `stderr` is for printing warnings, diagnostics or error messages
+    (see *e.g.* the `fprintf(stderr)` C function)
+
+In Bash, the default behaviour for programs that expect input is to
+prompt the user for input. However, the `stdin` can be redirected by
+using a `<` sign. For example, a program `my_program` that reads from
+the standard input can be instead fed a file `my_input.txt` by using
+`my_program < my_input.txt`.
+
+For the output streams, the default behaviour is to write them on
+screen. In order to redirect a output stream to file, use the `>` sign.
+For example, `echo "Hello beauty!" > msg.txt` will put the
+`"Hello beauty"` text in the `msg.txt` file.
+
+By contrast, the `stderr` can be redirected by using the `2>` token. For
+example, `ls wrong_file 2> error.txt` will put an error message
+(provided there is no file or directory named `wrong_file` in the
+current directory 😄) in the `error.txt` file.
+
+It is possible to redirect **both** `stdout` and `stderr` streams by
+using the `&>` sign.
+
+In general, all the above output redirection signs will write the output
+of the programs that are on their left-hand side to the files whose name
+is on their right-hand side, possibly overwriting any previous content.
+In order to *append*, rather than write, the output to those files is
+sufficient to add a `>` to each token. Thus, `>` becomes `>>`, `2>`
+becomes `2>>` and `&>` becomes `&>>`.
+
+**Nota Bene:** all multi-character tokens used for redirection should
+not contain spaces. In other words, be careful: `&>` and `& >` are
+**not** the same thing.
 
 "if" statements
 ---------------
