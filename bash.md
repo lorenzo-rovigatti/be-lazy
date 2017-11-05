@@ -8,11 +8,11 @@ In the following I will assume that Bash is the default shell of your system and
 
 ## Files and directories
 
-The first task you will likely use the shell for is to browse through the filesystem to work with files and directories (create, delete, move or edit them, execute programs, *etc.*). But wait, what is the filesystem?
+The first task you will likely use the shell for is to browse through the filesystem to work with files and directories (create, delete, move or edit them, execute programs, *etc.*). But wait, what is the filesystem? The [filesystem](https://en.wikipedia.org/wiki/File_system) is the data structure used by the OS to manage and give the user access to their files and directories.
 
 ## Redirection and piping
 
-The main strength of Bash (and of all the other shells) comes from the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy), which can be summarised as[^bash_philosophy]
+The main strength of Bash (and of all the other shells) comes from the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy), which can be summarised as [^bash_philosophy]
 
 > 1. Write programs that do one thing and do it well.
 > 2. Write programs to work together.

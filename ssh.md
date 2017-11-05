@@ -109,6 +109,6 @@ The most useful escape sequence is undoubtly `~.` (a tilde followed by a dot), w
 
 **Nota Bene:** `~` (the tilde character) should be the *very* first character on the command line.
 
-[^ssh_openssh]: In the following I will assume you are using the [OpenSSH][https://www.openssh.com/] client
+[^ssh_openssh]: In the following I will assume you are using the [OpenSSH](https://www.openssh.com/) client
 [^ssh_open_connections]: It is not uncommon (at least not for me :smile:) to have ten or more open connections at once!
 [^ssh_escape]: [https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/](https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/)

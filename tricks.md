@@ -15,8 +15,6 @@ by Lorenzo Rovigatti
     -   ["if" statements](#if-statements)
     -   ["for" loops](#for-loops)
     -   [Useful shortcuts](#useful-shortcuts)
-    -   [\[\^bash\_philosophy\]:
-        <http://www.catb.org/~esr/writings/taoup/html/ch01s06.html>](#bash_philosophy-httpwww.catb.orgesrwritingstaouphtmlch01s06.html)
 -   [~~Command-line tools~~](#command-line-tools)
     -   [~~AWK~~](#awk)
     -   [~~cat, cut and paste~~](#cat-cut-and-paste)
@@ -35,6 +33,7 @@ by Lorenzo Rovigatti
     -   [Making movies](#making-movies)
     -   [Adding a fading, rounded border to figures with
         GIMP](#adding-a-fading-rounded-border-to-figures-with-gimp)
+-   [Glossary](#glossary)
 
 Introduction
 ============
@@ -103,14 +102,16 @@ Files and directories
 The first task you will likely use the shell for is to browse through
 the filesystem to work with files and directories (create, delete, move
 or edit them, execute programs, *etc.*). But wait, what is the
-filesystem?
+filesystem? The [filesystem](https://en.wikipedia.org/wiki/File_system)
+is the data structure used by the OS to manage and give the user access
+to their files and directories.
 
 Redirection and piping
 ----------------------
 
 The main strength of Bash (and of all the other shells) comes from the
 [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy), which
-can be summarised as\[\^bash\_philosophy\]
+can be summarised as [^1]
 
 > 1.  Write programs that do one thing and do it well.
 > 2.  Write programs to work together.
@@ -199,8 +200,7 @@ Useful shortcuts
 -   `ctrl + s` forward interactive command search (**NB:** `stty -ixon`
     should be first added to .bashrc)
 
-\[\^bash\_philosophy\]: <http://www.catb.org/~esr/writings/taoup/html/ch01s06.html>
------------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 ~~Command-line tools~~
 ======================
@@ -234,7 +234,7 @@ many people who do this job. If you are one of these people, you will
 likely find yourself SSH-ing to this or that computer quite often. If
 you have an account `lorenzo` on the `powercluster.cool.univ.com`
 machine, you can use the following command to establish a remote
-connection with it[^1]
+connection with it[^2]
 
     $ ssh lorenzo@powercluster.cool.univ.com
 
@@ -259,7 +259,7 @@ How to avoid wasting time
 
 If you find yourself typing the commands written above over and over,
 you will quickly realise how annoying it can get, especially if you have
-multiple computers you often connect to[^2]. There are two
+multiple computers you often connect to[^3]. There are two
 (complementary) ways to save a lot of keystrokes:
 
 1.  Set up ssh keys
@@ -392,7 +392,7 @@ Escape sequences
 ----------------
 
 OpenSSH provides a variety of escape sequences that can be used during
-SSH sessions, even when the terminal is unresponsive [^3]. Typing `~?`
+SSH sessions, even when the terminal is unresponsive [^4]. Typing `~?`
 (a tilde followed by a question mark) during an SSH session will print
 the list of available escape sequences which, with my OpenSSH client
 v7.2, looks like
@@ -551,10 +551,17 @@ Adding a fading, rounded border to figures with GIMP
 9.  Fill the layer with the background colour you want your picture to
     fade to at the border (usually black)
 
-[^1]: In the following I will assume you are using the
-    \[OpenSSH\]\[https://www.openssh.com/\] client
+------------------------------------------------------------------------
 
-[^2]: It is not uncommon (at least not for me 😄) to have ten or more
+Glossary
+========
+
+[^1]: <http://www.catb.org/~esr/writings/taoup/html/ch01s06.html>
+
+[^2]: In the following I will assume you are using the
+    [OpenSSH](https://www.openssh.com/) client
+
+[^3]: It is not uncommon (at least not for me 😄) to have ten or more
     open connections at once!
 
-[^3]: <https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/>
+[^4]: <https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/>

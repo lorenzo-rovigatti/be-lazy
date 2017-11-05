@@ -1,6 +1,6 @@
 #!/bin/bash
 
-md_files="intro.md bash.md command_line_tools.md plotting.md ssh.md debugging.md uncategorized.md"
+md_files="intro.md bash.md command_line_tools.md plotting.md ssh.md debugging.md uncategorized.md glossary.md"
 md_dialect="markdown+emoji"
 
 # generate the book

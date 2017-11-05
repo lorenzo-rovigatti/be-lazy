@@ -28,7 +28,6 @@
 <li><a href="#if-statements">&quot;if&quot; statements</a></li>
 <li><a href="#for-loops">&quot;for&quot; loops</a></li>
 <li><a href="#useful-shortcuts">Useful shortcuts</a></li>
-<li><a href="#bash_philosophy-httpwww.catb.orgesrwritingstaouphtmlch01s06.html">[^bash_philosophy]: &lt;http://www.catb.org/~esr/writings/taoup/html/ch01s06.html&gt;</a></li>
 </ul></li>
 <li><a href="#command-line-tools"><del>Command-line tools</del></a>
 <ul>
@@ -59,6 +58,7 @@
 <li><a href="#making-movies">Making movies</a></li>
 <li><a href="#adding-a-fading-rounded-border-to-figures-with-gimp">Adding a fading, rounded border to figures with GIMP</a></li>
 </ul></li>
+<li><a href="#glossary">Glossary</a></li>
 </ul>
 <h1 id="introduction">Introduction</h1>
 <p>I am a computational physicist and I spend most of the day in front of a computer. I consider myself quite the lazy person, and I find many of the daily tasks that are associated with my job to be extremely boring and repetitive. During the course of the years I have developed my own way of dealing with these chores.</p>
@@ -80,9 +80,9 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>In the following I will assume that Bash is the default shell of your system and that you know how to start a new terminal, which usually boils down to writing &quot;terminal&quot; in your OS' search bar and starting up the first search result.</p>
 <p><a href="https://www.gnu.org/software/bash/">Bash</a> is probably the most common <a href="https://en.wikipedia.org/wiki/Unix_shell">Unix shell</a>. It is the default login shells of many LInux distributions, as well as of Apple's Mac OS X. For our purposes, Bash is the command line through which we communicate with and operate on the files and directories stored on the filesystem.</p>
 <h2 id="files-and-directories">Files and directories</h2>
-<p>The first task you will likely use the shell for is to browse through the filesystem to work with files and directories (create, delete, move or edit them, execute programs, <em>etc.</em>). But wait, what is the filesystem?</p>
+<p>The first task you will likely use the shell for is to browse through the filesystem to work with files and directories (create, delete, move or edit them, execute programs, <em>etc.</em>). But wait, what is the filesystem? The <a href="https://en.wikipedia.org/wiki/File_system">filesystem</a> is the data structure used by the OS to manage and give the user access to their files and directories.</p>
 <h2 id="redirection-and-piping">Redirection and piping</h2>
-<p>The main strength of Bash (and of all the other shells) comes from the <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a>, which can be summarised as[^bash_philosophy]</p>
+<p>The main strength of Bash (and of all the other shells) comes from the <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a>, which can be summarised as <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <blockquote>
 <ol style="list-style-type: decimal">
 <li>Write programs that do one thing and do it well.</li>
@@ -121,7 +121,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><code>ctrl + r</code> backward interactive command search</li>
 <li><code>ctrl + s</code> forward interactive command search (<strong>NB:</strong> <code>stty -ixon</code> should be first added to .bashrc)</li>
 </ul>
-<h2 id="bash_philosophy-httpwww.catb.orgesrwritingstaouphtmlch01s06.html">[^bash_philosophy]: <a href="http://www.catb.org/~esr/writings/taoup/html/ch01s06.html" class="uri">http://www.catb.org/~esr/writings/taoup/html/ch01s06.html</a></h2>
+<hr />
 <h1 id="command-line-tools"><del>Command-line tools</del></h1>
 <h2 id="awk"><del>AWK</del></h2>
 <h2 id="cat-cut-and-paste"><del>cat, cut and paste</del></h2>
@@ -131,13 +131,13 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <h2 id="xmgrace"><del>xmgrace</del></h2>
 <hr />
 <h1 id="ssh">SSH</h1>
-<p>Connecting through <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself SSH-ing to this or that computer quite often. If you have an account <code>lorenzo</code> on the <code>powercluster.cool.univ.com</code> machine, you can use the following command to establish a remote connection with it<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<p>Connecting through <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself SSH-ing to this or that computer quite often. If you have an account <code>lorenzo</code> on the <code>powercluster.cool.univ.com</code> machine, you can use the following command to establish a remote connection with it<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
 <pre><code>$ ssh lorenzo@powercluster.cool.univ.com</code></pre>
 <p>You will then be asked to input your password after which you will be given a shell on the remote machine. Some cautious (paranoid?) sys-admins like to disable the 22 port on which the ssh <a href="https://en.wikipedia.org/wiki/Daemon_(computing)">daemon</a> listens by default. If you try to connect to a remote machine and you receive a <code>Connection refused</code> error, this might be way. In order to connect through another port (port 123456, for instance) use the <code>-p</code> option, like this:</p>
 <pre><code>$ ssh -p 123456 lorenzo@powercluster.cool.univ.com</code></pre>
 <p><strong>Nota Bene:</strong> if you are using <code>scp</code> to copy files from/to a remote machine that accepts SSH connections only through a non-22 port, make sure you add <code>-P port</code> (with a capital <code>P</code>) and not <code>-p port</code> like you would do with <code>ssh</code>.</p>
 <h2 id="how-to-avoid-wasting-time">How to avoid wasting time</h2>
-<p>If you find yourself typing the commands written above over and over, you will quickly realise how annoying it can get, especially if you have multiple computers you often connect to<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. There are two (complementary) ways to save a lot of keystrokes:</p>
+<p>If you find yourself typing the commands written above over and over, you will quickly realise how annoying it can get, especially if you have multiple computers you often connect to<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>. There are two (complementary) ways to save a lot of keystrokes:</p>
 <ol style="list-style-type: decimal">
 <li>Set up ssh keys</li>
 <li>Set up the list of hosts in the ssh config file</li>
@@ -188,7 +188,7 @@ User lorenzo
 <li><p>The list of available fields is <a href="https://www.ssh.com/ssh/config/">here</a>. A simpler tutorial can be found here <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client">here</a></p></li>
 </ol>
 <h2 id="escape-sequences">Escape sequences</h2>
-<p>OpenSSH provides a variety of escape sequences that can be used during SSH sessions, even when the terminal is unresponsive <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>. Typing <code>~?</code> (a tilde followed by a question mark) during an SSH session will print the list of available escape sequences which, with my OpenSSH client v7.2, looks like</p>
+<p>OpenSSH provides a variety of escape sequences that can be used during SSH sessions, even when the terminal is unresponsive <a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>. Typing <code>~?</code> (a tilde followed by a question mark) during an SSH session will print the list of available escape sequences which, with my OpenSSH client v7.2, looks like</p>
 <pre><code>~.   - terminate connection (and any multiplexed sessions)
 ~B   - send a BREAK to the remote system
 ~C   - open a command line
@@ -253,12 +253,15 @@ User lorenzo
 <li>Create a new layer (same width and height as the figure) and put it underneath all other layers</li>
 <li>Fill the layer with the background colour you want your picture to fade to at the border (usually black)</li>
 </ol>
+<hr />
+<h1 id="glossary">Glossary</h1>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>In the following I will assume you are using the [OpenSSH][https://www.openssh.com/] client<a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>It is not uncommon (at least not for me 😄) to have ten or more open connections at once!<a href="#fnref2">↩</a></p></li>
-<li id="fn3"><p><a href="https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/" class="uri">https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/</a><a href="#fnref3">↩</a></p></li>
+<li id="fn1"><p><a href="http://www.catb.org/~esr/writings/taoup/html/ch01s06.html" class="uri">http://www.catb.org/~esr/writings/taoup/html/ch01s06.html</a><a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>In the following I will assume you are using the <a href="https://www.openssh.com/">OpenSSH</a> client<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>It is not uncommon (at least not for me 😄) to have ten or more open connections at once!<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p><a href="https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/" class="uri">https://lonesysadmin.net/2011/11/08/ssh-escape-sequences-aka-kill-dead-ssh-sessions/amp/</a><a href="#fnref4">↩</a></p></li>
 </ol>
 </div>
 </body>
