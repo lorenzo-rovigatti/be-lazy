@@ -4,11 +4,15 @@
 
 Connecting through [SSH](https://en.wikipedia.org/wiki/Secure_Shell) to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself SSH-ing to this or that computer quite often. If you have an account `lorenzo` on the `powercluster.cool.univ.com` machine, you can use the following command to establish a remote connection with it[^ssh_openssh]
 
-    $ ssh lorenzo@powercluster.cool.univ.com
+```bash
+$ ssh lorenzo@powercluster.cool.univ.com
+```
 
 You will then be asked to input your password after which you will be given a shell on the remote machine. Some cautious (paranoid?) sys-admins like to disable the 22 port on which the ssh [daemon](https://en.wikipedia.org/wiki/Daemon_(computing)) listens by default. If you try to connect to a remote machine and you receive a `Connection refused` error, this might be way. In order to connect through another port (port 123456, for instance) use the `-p` option, like this:
 
-    $ ssh -p 123456 lorenzo@powercluster.cool.univ.com
+```bash
+$ ssh -p 123456 lorenzo@powercluster.cool.univ.com
+```
     
 **Nota Bene:** if you are using `scp` to copy files from/to a remote machine that accepts SSH connections only through a non-22 port, make sure you add `-P port` (with a capital `P`) and not `-p port` like you would do with `ssh`.
 
@@ -25,7 +29,9 @@ I will not delve into the technicalities of SSH keys because I am not expert and
 
 Here it suffices to know that you can set up the SSH connection between your local machine and a remote one so that you will not have to enter any password when using it. In order to do so, you will have to first generate an *SSH key* on your local machine. This can be done with the following command
 
-	$ ssh-keygen -t rsa
+```bash
+$ ssh-keygen -t rsa
+```
 
 The first thing you will be asked is where to store the key. If you leave the field empty the key will be saved in the `~/.ssh/id_rsa` location, with `~` being your home directory. You will be then asked twice to enter a passphrase, which can be left empty. There can be security reasons why you would want to enter a non-empty passphrase. However, using a non-empty passphrase would defeat the purpose of this section, as it would make SSH ask for that passphrase every time you want to login on the remote machines you have copied your key to. In the following I will assume you saved the key to the default location and did not enter a passphrase during the key generation.
 
@@ -33,11 +39,15 @@ The first thing you will be asked is where to store the key. If you leave the fi
 
 On many systems there exists the `ssh-copy-id` utility that copies your key over to the right position on the remote machine. If this is your case just call it with the command line options you would use if you were to connect to the remote machine through the usual SSH command. For example,
 
-	$ ssh-copy-id lorenzo@powercluster.cool.univ.com
+```bash
+$ ssh-copy-id lorenzo@powercluster.cool.univ.com
+```
 	
 or, if you need to use a custom port:
 
-	$ ssh-copy-id -p 123456 lorenzo@powercluster.cool.univ.com
+```bash
+$ ssh-copy-id -p 123456 lorenzo@powercluster.cool.univ.com
+```
 
 if everything goes smoothly this is the last time you will have to enter your password to connect to that specific remote computer :smile:
 
@@ -58,11 +68,15 @@ If your system lacks `ssh-copy-id` you will have to manually add your public key
 
 In this section we will see how to transform this:
 
-    $ ssh -p 123456 lorenzo@powercluster.cool.univ.com
+```bash
+$ ssh -p 123456 lorenzo@powercluster.cool.univ.com
+```
     
 Into this:
 
-    $ ssh pc
+```bash
+$ ssh pc
+```
     
 Looks neat, doesn't it? With SSH, just open the file `~/.ssh/config` (which may not exist yet) and, for each combination of `user@host` you want to create aliases for, add a few lines that specify the parameters for that specific connection, like this:
 
