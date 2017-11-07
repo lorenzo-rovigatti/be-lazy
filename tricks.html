@@ -6,6 +6,43 @@
   <meta name="generator" content="pandoc" />
   <title></title>
   <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
   <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 <body>
@@ -24,9 +61,10 @@
 <li><a href="#redirection-and-piping">Redirection and piping</a>
 <ul>
 <li><a href="#inputoutput-redirection">Input/output redirection</a></li>
+<li><a href="#piping"><del>Piping</del></a></li>
 </ul></li>
-<li><a href="#if-statements">&quot;if&quot; statements</a></li>
-<li><a href="#for-loops">&quot;for&quot; loops</a></li>
+<li><a href="#if-statements"><del>&quot;if&quot; statements</del></a></li>
+<li><a href="#for-loops"><del>&quot;for&quot; loops</del></a></li>
 <li><a href="#useful-shortcuts">Useful shortcuts</a></li>
 </ul></li>
 <li><a href="#command-line-tools"><del>Command-line tools</del></a>
@@ -77,10 +115,23 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p><a href="https://creativecommons.org/licenses/by/4.0/"><img src="https://licensebuttons.net/l/by/4.0/80x15.png" alt="License: CC BY 4.0" /></a></p>
 <hr />
 <h1 id="bash">Bash</h1>
-<p>In the following I will assume that Bash is the default shell of your system and that you know how to start a new terminal, which usually boils down to writing &quot;terminal&quot; in your OS' search bar and starting up the first search result.</p>
-<p><a href="https://www.gnu.org/software/bash/">Bash</a> is probably the most common <a href="https://en.wikipedia.org/wiki/Unix_shell">Unix shell</a>. It is the default login shells of many LInux distributions, as well as of Apple's Mac OS X. For our purposes, Bash is the command line through which we communicate with and operate on the files and directories stored on the filesystem.</p>
+<p>In the following I will assume that Bash is the default <a href="#shell">shell</a> of your system and that you know how to start a new terminal, which usually boils down to writing &quot;terminal&quot; in your OS' search bar and starting up the first search result.</p>
+<p><a href="https://www.gnu.org/software/bash/">Bash</a> is probably the most common <a href="https://en.wikipedia.org/wiki/Unix_shell">Unix shell</a>. It is the default login shells of many LInux distributions, as well as of Apple's Mac OS X. For our purposes, Bash is the command line through which we communicate with and operate on the files and directories stored on the <a href="#filesystem">filesystem</a>.</p>
 <h2 id="files-and-directories">Files and directories</h2>
-<p>The first task you will likely use the shell for is to browse through the filesystem to work with files and directories (create, delete, move or edit them, execute programs, <em>etc.</em>). But wait, what is the filesystem? The <a href="https://en.wikipedia.org/wiki/File_system">filesystem</a> is the data structure used by the OS to manage and give the user access to their files and directories.</p>
+<p>The first task you will likely use the shell for is to browse through the <a href="#filesystem">filesystem</a> to work with files and directories (create, delete, move or edit them, execute programs, <em>etc.</em>). Think of the filesystem as a tree-like structure: leaves are files, branches are directories (and leaf-less branches are empty directories). An example of a part of a filesystem (as output by the <code>tree</code> command), with directories being coloured in blue and files in black is</p>
+<pre>
+<span style="color:blue">root_directory</span>
+├── a_file
+├── <span style="color:blue">first_directory</span>
+│   ├── <span style="color:blue">another_directory</span>
+│   │   └── a_nested_file
+│   ├── another_file
+│   └── one_more
+└── <span style="color:blue">second_directory</span>
+</pre>
+<p>In <a href="#unix-like">*nix</a> systems, the filesystem tree starts in the directory indicated by <code>/</code>, which is aptly called the <em>root</em> directory. When you open a shell (or a terminal), you will be placed in a starting directory which, most likely, will be your own home directory. By default, its path is <code>/home/your_username</code> (<em>e.g.</em> <code>/home/lorenzo</code>).</p>
+<p>You can use the <code>pwd</code> command, which prints to screen the name of the (current) working directory, to find out where you are. The same can be achieved by printing the <code>PWD</code> environment variable (<code>echo $PWD</code>), which Bash sets to the current directory every time the working directory is changed.</p>
+<p>You can change the current directory with the <code>cd</code> command. If you want to move to the <code>other_dir</code> directory just type <code>cd other_dir</code>. <code>cd</code> accepts both absolute and relative paths.</p>
 <h2 id="redirection-and-piping">Redirection and piping</h2>
 <p>The main strength of Bash (and of all the other shells) comes from the <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a>, which can be summarised as <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <blockquote>
@@ -104,8 +155,9 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>It is possible to redirect <strong>both</strong> <code>stdout</code> and <code>stderr</code> streams by using the <code>&amp;&gt;</code> sign.</p>
 <p>In general, all the above output redirection signs will write the output of the programs that are on their left-hand side to the files whose name is on their right-hand side, possibly overwriting any previous content. In order to <em>append</em>, rather than write, the output to those files is sufficient to add a <code>&gt;</code> to each token. Thus, <code>&gt;</code> becomes <code>&gt;&gt;</code>, <code>2&gt;</code> becomes <code>2&gt;&gt;</code> and <code>&amp;&gt;</code> becomes <code>&amp;&gt;&gt;</code>.</p>
 <p><strong>Nota Bene:</strong> all multi-character tokens used for redirection should not contain spaces. In other words, be careful: <code>&amp;&gt;</code> and <code>&amp; &gt;</code> are <strong>not</strong> the same thing.</p>
-<h2 id="if-statements">&quot;if&quot; statements</h2>
-<h2 id="for-loops">&quot;for&quot; loops</h2>
+<h3 id="piping"><del>Piping</del></h3>
+<h2 id="if-statements"><del>&quot;if&quot; statements</del></h2>
+<h2 id="for-loops"><del>&quot;for&quot; loops</del></h2>
 <h2 id="useful-shortcuts">Useful shortcuts</h2>
 <ul>
 <li><code>!PATTERN</code> execute the most recent command in the shell history that begins with PATTERN (<em>e.g.</em> <code>!xm</code> will likely execute the last <code>xmgrace</code> command issued)</li>
@@ -132,9 +184,9 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <hr />
 <h1 id="ssh">SSH</h1>
 <p>Connecting through <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself SSH-ing to this or that computer quite often. If you have an account <code>lorenzo</code> on the <code>powercluster.cool.univ.com</code> machine, you can use the following command to establish a remote connection with it<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
-<pre><code>$ ssh lorenzo@powercluster.cool.univ.com</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ssh</span> lorenzo@powercluster.cool.univ.com</code></pre></div>
 <p>You will then be asked to input your password after which you will be given a shell on the remote machine. Some cautious (paranoid?) sys-admins like to disable the 22 port on which the ssh <a href="https://en.wikipedia.org/wiki/Daemon_(computing)">daemon</a> listens by default. If you try to connect to a remote machine and you receive a <code>Connection refused</code> error, this might be way. In order to connect through another port (port 123456, for instance) use the <code>-p</code> option, like this:</p>
-<pre><code>$ ssh -p 123456 lorenzo@powercluster.cool.univ.com</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ssh</span> -p 123456 lorenzo@powercluster.cool.univ.com</code></pre></div>
 <p><strong>Nota Bene:</strong> if you are using <code>scp</code> to copy files from/to a remote machine that accepts SSH connections only through a non-22 port, make sure you add <code>-P port</code> (with a capital <code>P</code>) and not <code>-p port</code> like you would do with <code>ssh</code>.</p>
 <h2 id="how-to-avoid-wasting-time">How to avoid wasting time</h2>
 <p>If you find yourself typing the commands written above over and over, you will quickly realise how annoying it can get, especially if you have multiple computers you often connect to<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>. There are two (complementary) ways to save a lot of keystrokes:</p>
@@ -145,13 +197,13 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <h3 id="ssh-keys">SSH keys</h3>
 <p>I will not delve into the technicalities of SSH keys because I am not expert and because I do not think this is the right place to have such a discussion. If you are interested you can find many resources online, starting, for instance, from <a href="https://www.ssh.com/ssh/key/">here</a>.</p>
 <p>Here it suffices to know that you can set up the SSH connection between your local machine and a remote one so that you will not have to enter any password when using it. In order to do so, you will have to first generate an <em>SSH key</em> on your local machine. This can be done with the following command</p>
-<pre><code>$ ssh-keygen -t rsa</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ssh-keygen</span> -t rsa</code></pre></div>
 <p>The first thing you will be asked is where to store the key. If you leave the field empty the key will be saved in the <code>~/.ssh/id_rsa</code> location, with <code>~</code> being your home directory. You will be then asked twice to enter a passphrase, which can be left empty. There can be security reasons why you would want to enter a non-empty passphrase. However, using a non-empty passphrase would defeat the purpose of this section, as it would make SSH ask for that passphrase every time you want to login on the remote machines you have copied your key to. In the following I will assume you saved the key to the default location and did not enter a passphrase during the key generation.</p>
 <p><strong>Nota Bene:</strong> the key you have generated is a (sort of) fingerprint of your user on the <em>specific</em> local machine you are generating it on. This means that you have to undergo this procedure once for each computer you connect <em>from</em>, regardless of the number of remote machines you will connect <em>to</em>.</p>
 <p>On many systems there exists the <code>ssh-copy-id</code> utility that copies your key over to the right position on the remote machine. If this is your case just call it with the command line options you would use if you were to connect to the remote machine through the usual SSH command. For example,</p>
-<pre><code>$ ssh-copy-id lorenzo@powercluster.cool.univ.com</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ssh-copy-id</span> lorenzo@powercluster.cool.univ.com</code></pre></div>
 <p>or, if you need to use a custom port:</p>
-<pre><code>$ ssh-copy-id -p 123456 lorenzo@powercluster.cool.univ.com</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ssh-copy-id</span> -p 123456 lorenzo@powercluster.cool.univ.com</code></pre></div>
 <p>if everything goes smoothly this is the last time you will have to enter your password to connect to that specific remote computer 😄</p>
 <p>If your system lacks <code>ssh-copy-id</code> you will have to manually add your public key to the list of <em>authorized keys</em> stored on the remote machine. In order to do so you will have to</p>
 <ol style="list-style-type: decimal">
@@ -164,9 +216,9 @@ where <code>GIBBERISH</code> is a very long string of seemingly random character
 <p><strong>Nota Bene:</strong> the aforementioned procedure lets you SSH passwordlessly from <code>user_on_A_host@A_host</code> to <code>user_on_B_host@B_host</code>. If you change either the user or the host from which you connect <em>from</em>, you will have to redo the proceudre. If you change either the user or the host you connect <em>to</em> you will have to update the corresponding <code>authorized_keys</code> file by adding the public key you already have.</p>
 <h3 id="ssh-config-file">SSH config file</h3>
 <p>In this section we will see how to transform this:</p>
-<pre><code>$ ssh -p 123456 lorenzo@powercluster.cool.univ.com</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ssh</span> -p 123456 lorenzo@powercluster.cool.univ.com</code></pre></div>
 <p>Into this:</p>
-<pre><code>$ ssh pc</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ssh</span> pc</code></pre></div>
 <p>Looks neat, doesn't it? With SSH, just open the file <code>~/.ssh/config</code> (which may not exist yet) and, for each combination of <code>user@host</code> you want to create aliases for, add a few lines that specify the parameters for that specific connection, like this:</p>
 <pre><code>Host pc
 HostName powercluster.cool.univ.com
@@ -234,12 +286,12 @@ User lorenzo
 <p><strong>Nota Bene:</strong> on default installations, the shared directories are owned by the user and group identified by the <code>uid</code> and <code>gid</code> of the server, respectively. If the user on the client has a different <code>uid</code> and/or <code>gid</code>, its access to these directories may be limited. If this is the case (and if you are sure there will be no issues arising from such a drastic change) the best course of action is to change the user and group ids on either machine in order to make them match. This can done with the <code>usermod</code> command (<em>e.g.</em> <code>usermod -g 1110 -u 1205 lorenzo</code> will change lorenzo's <code>gid</code> and <code>uid</code> to 1110 and 1205, respectively). Note that <code>usermod</code> will change the ownership of all the files and directories that are in the user's home directory and are owned by them. The ownership of any other file or directory must be fixed manually.</p>
 <h2 id="making-movies">Making movies</h2>
 <p>We would like to generate a movie out of a (maybe very long) list of png images. We first create a file containing the list of png files sorted according to the order with which they should appear in the movie. If the names of the files are <code>img-1.png</code>, <code>img-2.png</code>, <em>etc.</em>, this can be accomplished by typing</p>
-<pre><code>$ ls -1v img-*.png &gt; list.dat</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ls</span> -1v img-*.png <span class="kw">&gt;</span> list.dat</code></pre></div>
 <p>The <code>-v</code> option is a GNU extension that tells <code>ls</code> to order entries according to the natural sorting of the numbers contained in the entry names. If on your system this option is not supported or it does something else (this might be the case on BSD/OSX systems), then you can use the following command</p>
-<pre><code>$ ls -1 img-*.png | sort -n -t&#39;-&#39; -k 2 &gt; list.dat</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ls</span> -1 img-*.png <span class="kw">|</span> <span class="kw">sort</span> -n -t<span class="st">&#39;-&#39;</span> -k 2 <span class="kw">&gt;</span> list.dat</code></pre></div>
 <p><code>-n</code> applies natural sorting, <code>-t'-'</code> tells sort to use dashes as the separators to split the entries it acts on into fields and <code>-k 2</code> to sort according to the value of the second field</p>
 <p>A movie of width WIDTH, height HEIGHT and framerate FPS can now be generated by using <code>mencoder</code> with the following options:</p>
-<pre><code>$ mencoder mf://@list.dat -mf w=WIDTH:h=HEIGHT:fps=FPS:type=png -ovc xvid -xvidencopts bitrate=200 -o output.avi</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">mencoder</span> mf://@list.dat -mf w=WIDTH:h=HEIGHT:fps=FPS:type=png -ovc xvid -xvidencopts bitrate=200 -o output.avi</code></pre></div>
 <p>The <code>-ovc xvid</code> controls the type of output and may not be suitable on all systems (or for all the purposes). The <code>-xvidencopts bitrate=200</code> option sets a sort of <em>overall</em> quality of the output.</p>
 <h2 id="adding-a-fading-rounded-border-to-figures-with-gimp">Adding a fading, rounded border to figures with GIMP</h2>
 <ol style="list-style-type: decimal">
@@ -255,6 +307,17 @@ User lorenzo
 </ol>
 <hr />
 <h1 id="glossary">Glossary</h1>
+<dl>
+<dt><a id="filesystem" class="glossary_entry">Filesystem</a></dt>
+<dd><p>The data structure used by the OS to manage and provide access to the files and directories to a user (<a href="https://en.wikipedia.org/wiki/File_system">wikipedia</a>)</p>
+</dd>
+<dt><a id="shell" class="glossary_entry">Shell</a></dt>
+<dd><p>The interface through which a user access the operating system's services. Although shells are, in general, either graphic user interfaces (GUIs) or command-line interfaces (CLIs), the term &quot;shell&quot; is most often used to refer to CLIs (<a href="https://en.wikipedia.org/wiki/Shell_(computing)">wikipedia</a>)</p>
+</dd>
+<dt><a id="unix-like" class="glossary_entry">Unix-like, *nix, UN*x</a></dt>
+<dd><p>An operating system that behaves similarly to a Unix system. It is often used loosely (<a href="https://en.wikipedia.org/wiki/Unix-like">wikipedia</a>)</p>
+</dd>
+</dl>
 <div class="footnotes">
 <hr />
 <ol>

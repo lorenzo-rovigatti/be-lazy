@@ -2,13 +2,30 @@
 
 # Bash
 
-In the following I will assume that Bash is the default shell of your system and that you know how to start a new terminal, which usually boils down to writing "terminal" in your OS' search bar and starting up the first search result.
+In the following I will assume that Bash is the default [shell](#shell) of your system and that you know how to start a new terminal, which usually boils down to writing "terminal" in your OS' search bar and starting up the first search result.
 
-[Bash](https://www.gnu.org/software/bash/) is probably the most common [Unix shell](https://en.wikipedia.org/wiki/Unix_shell). It is the default login shells of many LInux distributions, as well as of Apple's Mac OS X. For our purposes, Bash is the command line through which we communicate with and operate on the files and directories stored on the filesystem.
+[Bash](https://www.gnu.org/software/bash/) is probably the most common [Unix shell](https://en.wikipedia.org/wiki/Unix_shell). It is the default login shells of many LInux distributions, as well as of Apple's Mac OS X. For our purposes, Bash is the command line through which we communicate with and operate on the files and directories stored on the [filesystem](#filesystem).
 
 ## Files and directories
 
-The first task you will likely use the shell for is to browse through the filesystem to work with files and directories (create, delete, move or edit them, execute programs, *etc.*). But wait, what is the filesystem? The [filesystem](https://en.wikipedia.org/wiki/File_system) is the data structure used by the OS to manage and give the user access to their files and directories.
+The first task you will likely use the shell for is to browse through the [filesystem](#filesystem) to work with files and directories (create, delete, move or edit them, execute programs, *etc.*). Think of the filesystem as a tree-like structure: leaves are files, branches are directories (and leaf-less branches are empty directories). An example of a part of a filesystem (as output by the `tree` command), with directories being coloured in blue and files in black is
+
+<pre>
+<span style="color:blue">root_directory</span>
+├── a_file
+├── <span style="color:blue">first_directory</span>
+│   ├── <span style="color:blue">another_directory</span>
+│   │   └── a_nested_file
+│   ├── another_file
+│   └── one_more
+└── <span style="color:blue">second_directory</span>
+</pre>
+
+In [*nix](#unix-like) systems, the filesystem tree starts in the directory indicated by `/`, which is aptly called the *root* directory. When you open a shell (or a terminal), you will be placed in a starting directory which, most likely, will be your own home directory. By default, its path is `/home/your_username` (*e.g.* `/home/lorenzo`).
+
+You can use the `pwd` command, which prints to screen the name of the (current) working directory, to find out where you are. The same can be achieved by printing the `PWD` environment variable (`echo $PWD`), which Bash sets to the current directory every time the working directory is changed.
+
+You can change the current directory with the `cd` command. If you want to move to the `other_dir` directory just type `cd other_dir`. `cd` accepts both absolute and relative paths.
 
 ## Redirection and piping
 
@@ -40,9 +57,11 @@ In general, all the above output redirection signs will write the output of the 
 
 **Nota Bene:** all multi-character tokens used for redirection should not contain spaces. In other words, be careful: `&>` and `& >` are **not** the same thing.
 
-## "if" statements
+### ~~Piping~~
 
-## "for" loops
+## ~~"if" statements~~
+
+## ~~"for" loops~~
 
 ## Useful shortcuts
 

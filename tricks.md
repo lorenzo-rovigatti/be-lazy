@@ -12,8 +12,9 @@ by Lorenzo Rovigatti
     -   [Files and directories](#files-and-directories)
     -   [Redirection and piping](#redirection-and-piping)
         -   [Input/output redirection](#inputoutput-redirection)
-    -   ["if" statements](#if-statements)
-    -   ["for" loops](#for-loops)
+        -   [~~Piping~~](#piping)
+    -   [~~"if" statements~~](#if-statements)
+    -   [~~"for" loops~~](#for-loops)
     -   [Useful shortcuts](#useful-shortcuts)
 -   [~~Command-line tools~~](#command-line-tools)
     -   [~~AWK~~](#awk)
@@ -84,27 +85,54 @@ included in the source of the book.
 Bash
 ====
 
-In the following I will assume that Bash is the default shell of your
-system and that you know how to start a new terminal, which usually
-boils down to writing "terminal" in your OS' search bar and starting up
-the first search result.
+In the following I will assume that Bash is the default [shell](#shell)
+of your system and that you know how to start a new terminal, which
+usually boils down to writing "terminal" in your OS' search bar and
+starting up the first search result.
 
 [Bash](https://www.gnu.org/software/bash/) is probably the most common
 [Unix shell](https://en.wikipedia.org/wiki/Unix_shell). It is the
 default login shells of many LInux distributions, as well as of Apple's
 Mac OS X. For our purposes, Bash is the command line through which we
 communicate with and operate on the files and directories stored on the
-filesystem.
+[filesystem](#filesystem).
 
 Files and directories
 ---------------------
 
 The first task you will likely use the shell for is to browse through
-the filesystem to work with files and directories (create, delete, move
-or edit them, execute programs, *etc.*). But wait, what is the
-filesystem? The [filesystem](https://en.wikipedia.org/wiki/File_system)
-is the data structure used by the OS to manage and give the user access
-to their files and directories.
+the [filesystem](#filesystem) to work with files and directories
+(create, delete, move or edit them, execute programs, *etc.*). Think of
+the filesystem as a tree-like structure: leaves are files, branches are
+directories (and leaf-less branches are empty directories). An example
+of a part of a filesystem (as output by the `tree` command), with
+directories being coloured in blue and files in black is
+
+<pre>
+<span style="color:blue">root_directory</span>
+├── a_file
+├── <span style="color:blue">first_directory</span>
+│   ├── <span style="color:blue">another_directory</span>
+│   │   └── a_nested_file
+│   ├── another_file
+│   └── one_more
+└── <span style="color:blue">second_directory</span>
+</pre>
+In [\*nix](#unix-like) systems, the filesystem tree starts in the
+directory indicated by `/`, which is aptly called the *root* directory.
+When you open a shell (or a terminal), you will be placed in a starting
+directory which, most likely, will be your own home directory. By
+default, its path is `/home/your_username` (*e.g.* `/home/lorenzo`).
+
+You can use the `pwd` command, which prints to screen the name of the
+(current) working directory, to find out where you are. The same can be
+achieved by printing the `PWD` environment variable (`echo $PWD`), which
+Bash sets to the current directory every time the working directory is
+changed.
+
+You can change the current directory with the `cd` command. If you want
+to move to the `other_dir` directory just type `cd other_dir`. `cd`
+accepts both absolute and relative paths.
 
 Redirection and piping
 ----------------------
@@ -175,11 +203,13 @@ becomes `2>>` and `&>` becomes `&>>`.
 not contain spaces. In other words, be careful: `&>` and `& >` are
 **not** the same thing.
 
-"if" statements
----------------
+### ~~Piping~~
 
-"for" loops
------------
+~~"if" statements~~
+-------------------
+
+~~"for" loops~~
+---------------
 
 Useful shortcuts
 ----------------
@@ -236,7 +266,9 @@ you have an account `lorenzo` on the `powercluster.cool.univ.com`
 machine, you can use the following command to establish a remote
 connection with it[^2]
 
-    $ ssh lorenzo@powercluster.cool.univ.com
+``` {.bash}
+$ ssh lorenzo@powercluster.cool.univ.com
+```
 
 You will then be asked to input your password after which you will be
 given a shell on the remote machine. Some cautious (paranoid?)
@@ -247,7 +279,9 @@ default. If you try to connect to a remote machine and you receive a
 through another port (port 123456, for instance) use the `-p` option,
 like this:
 
-    $ ssh -p 123456 lorenzo@powercluster.cool.univ.com
+``` {.bash}
+$ ssh -p 123456 lorenzo@powercluster.cool.univ.com
+```
 
 **Nota Bene:** if you are using `scp` to copy files from/to a remote
 machine that accepts SSH connections only through a non-22 port, make
@@ -278,7 +312,9 @@ any password when using it. In order to do so, you will have to first
 generate an *SSH key* on your local machine. This can be done with the
 following command
 
-    $ ssh-keygen -t rsa
+``` {.bash}
+$ ssh-keygen -t rsa
+```
 
 The first thing you will be asked is where to store the key. If you
 leave the field empty the key will be saved in the `~/.ssh/id_rsa`
@@ -303,11 +339,15 @@ case just call it with the command line options you would use if you
 were to connect to the remote machine through the usual SSH command. For
 example,
 
-    $ ssh-copy-id lorenzo@powercluster.cool.univ.com
+``` {.bash}
+$ ssh-copy-id lorenzo@powercluster.cool.univ.com
+```
 
 or, if you need to use a custom port:
 
-    $ ssh-copy-id -p 123456 lorenzo@powercluster.cool.univ.com
+``` {.bash}
+$ ssh-copy-id -p 123456 lorenzo@powercluster.cool.univ.com
+```
 
 if everything goes smoothly this is the last time you will have to enter
 your password to connect to that specific remote computer 😄
@@ -341,11 +381,15 @@ file by adding the public key you already have.
 
 In this section we will see how to transform this:
 
-    $ ssh -p 123456 lorenzo@powercluster.cool.univ.com
+``` {.bash}
+$ ssh -p 123456 lorenzo@powercluster.cool.univ.com
+```
 
 Into this:
 
-    $ ssh pc
+``` {.bash}
+$ ssh pc
+```
 
 Looks neat, doesn't it? With SSH, just open the file `~/.ssh/config`
 (which may not exist yet) and, for each combination of `user@host` you
@@ -511,7 +555,9 @@ according to the order with which they should appear in the movie. If
 the names of the files are `img-1.png`, `img-2.png`, *etc.*, this can be
 accomplished by typing
 
-    $ ls -1v img-*.png > list.dat
+``` {.bash}
+$ ls -1v img-*.png > list.dat
+```
 
 The `-v` option is a GNU extension that tells `ls` to order entries
 according to the natural sorting of the numbers contained in the entry
@@ -519,7 +565,9 @@ names. If on your system this option is not supported or it does
 something else (this might be the case on BSD/OSX systems), then you can
 use the following command
 
-    $ ls -1 img-*.png | sort -n -t'-' -k 2 > list.dat
+``` {.bash}
+$ ls -1 img-*.png | sort -n -t'-' -k 2 > list.dat
+```
 
 `-n` applies natural sorting, `-t'-'` tells sort to use dashes as the
 separators to split the entries it acts on into fields and `-k 2` to
@@ -528,7 +576,9 @@ sort according to the value of the second field
 A movie of width WIDTH, height HEIGHT and framerate FPS can now be
 generated by using `mencoder` with the following options:
 
-    $ mencoder mf://@list.dat -mf w=WIDTH:h=HEIGHT:fps=FPS:type=png -ovc xvid -xvidencopts bitrate=200 -o output.avi
+``` {.bash}
+$ mencoder mf://@list.dat -mf w=WIDTH:h=HEIGHT:fps=FPS:type=png -ovc xvid -xvidencopts bitrate=200 -o output.avi
+```
 
 The `-ovc xvid` controls the type of output and may not be suitable on
 all systems (or for all the purposes). The `-xvidencopts bitrate=200`
@@ -555,6 +605,26 @@ Adding a fading, rounded border to figures with GIMP
 
 Glossary
 ========
+
+<a id="filesystem" class="glossary_entry">Filesystem</a>
+
+:   The data structure used by the OS to manage and provide access to
+    the files and directories to a user
+    ([wikipedia](https://en.wikipedia.org/wiki/File_system))
+
+<a id="shell" class="glossary_entry">Shell</a>
+
+:   The interface through which a user access the operating
+    system's services. Although shells are, in general, either graphic
+    user interfaces (GUIs) or command-line interfaces (CLIs), the term
+    "shell" is most often used to refer to CLIs
+    ([wikipedia](https://en.wikipedia.org/wiki/Shell_(computing)))
+
+<a id="unix-like" class="glossary_entry">Unix-like, \*nix, UN\*x</a>
+
+:   An operating system that behaves similarly to a Unix system. It is
+    often used loosely
+    ([wikipedia](https://en.wikipedia.org/wiki/Unix-like))
 
 [^1]: <http://www.catb.org/~esr/writings/taoup/html/ch01s06.html>
 
