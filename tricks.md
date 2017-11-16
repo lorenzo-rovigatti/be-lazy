@@ -12,7 +12,7 @@ by Lorenzo Rovigatti
     -   [Files and directories](#files-and-directories)
     -   [Redirection and piping](#redirection-and-piping)
         -   [Input/output redirection](#inputoutput-redirection)
-        -   [~~Piping~~](#piping)
+        -   [Piping](#piping)
     -   [~~"if" statements~~](#if-statements)
     -   [~~"for" loops~~](#for-loops)
     -   [Useful shortcuts](#useful-shortcuts)
@@ -96,6 +96,11 @@ default login shells of many LInux distributions, as well as of Apple's
 Mac OS X. For our purposes, Bash is the command line through which we
 communicate with and operate on the files and directories stored on the
 [filesystem](#filesystem).
+
+**Nota Bene:** `man COMMAND` will show the manual associated to
+`COMMAND`, listing all the supported command-line arguments, the most
+common use-cases and some examples. Use the `man` command as often as
+possible, and **never** use a command without knowing what it does.
 
 Files and directories
 ---------------------
@@ -203,7 +208,45 @@ becomes `2>>` and `&>` becomes `&>>`.
 not contain spaces. In other words, be careful: `&>` and `& >` are
 **not** the same thing.
 
-### ~~Piping~~
+### Piping
+
+If you follow the Unix philosophy, you will often need to feed a program
+with the output of another program. This is called *piping* and it is
+done through the `|` (pipe) symbol. The pipe tells the shell to redirect
+the standard output of the command on the left-hand side of the pipe to
+the standard input of the command which is on the right-hand side of the
+pipe. For instance, take a directory containing a lot of files and/or
+folders. Imagine you want to have a look at the contents of the
+directory. This can be done by piping the output of `ls` (here
+complemented by the `-1` argument which tells `ls` to list one entry per
+line) to `less`, which is used to page through text, in this way:
+
+``` {.bash}
+ls -1 | less
+```
+
+Use the arrow keys or the page-up/page-down buttons to page through the
+text and `q` to quit.
+
+Do not be deceived by the simplicity of the above example: the
+possibility of chaining together different processes is at the core of
+the Unix philosophy and makes it possible to easily create extremely
+complicated and powerful *pipelines* (that is, sequences of processes
+linked together by `|`). For instance, the following pipeline uses
+
+1.  `grep` to extract from the `prova.dat` file only those lines that
+    contain integer numbers
+2.  `sort` to numerically sort them
+3.  `tail` to take the two largest numbers
+4.  `awk` to print the average over these two values
+
+``` {.bash}
+grep -E "^[0-9]+$" prova.dat | sort -n | tail -n 2 | awk '{a+=$1; t++} END {print a/t}'
+```
+
+You do not have to understand all the details, but just realise the
+sheer power of being able to combine the multitude of basic commands
+that a modern Linux shell provides.
 
 ~~"if" statements~~
 -------------------
