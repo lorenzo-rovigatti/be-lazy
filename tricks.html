@@ -57,7 +57,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li><a href="#bash">Bash</a>
 <ul>
-<li><a href="#files-and-directories">Files and directories</a></li>
+<li><a href="#commands-and-programs">Commands and programs</a></li>
+<li><a href="#files-and-directories">Files and directories</a>
+<ul>
+<li><a href="#cd"><code>cd</code></a></li>
+<li><a href="#ls"><code>ls</code></a></li>
+</ul></li>
 <li><a href="#redirection-and-piping">Redirection and piping</a>
 <ul>
 <li><a href="#inputoutput-redirection">Input/output redirection</a></li>
@@ -118,6 +123,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>In the following I will assume that Bash is the default <a href="#shell">shell</a> of your system and that you know how to start a new terminal, which usually boils down to writing &quot;terminal&quot; in your OS' search bar and starting up the first search result.</p>
 <p><a href="https://www.gnu.org/software/bash/">Bash</a> is probably the most common <a href="https://en.wikipedia.org/wiki/Unix_shell">Unix shell</a>. It is the default login shells of many LInux distributions, as well as of Apple's Mac OS X. For our purposes, Bash is the command line through which we communicate with and operate on the files and directories stored on the <a href="#filesystem">filesystem</a>.</p>
 <p><strong>Nota Bene:</strong> <code>man COMMAND</code> will show the manual associated to <code>COMMAND</code>, listing all the supported command-line arguments, the most common use-cases and some examples. Use the <code>man</code> command as often as possible, and <strong>never</strong> use a command without knowing what it does.</p>
+<h2 id="commands-and-programs">Commands and programs</h2>
+<p><strong>Nota Bene:</strong> Many commands (most of the default ones) support combining switches when used in their short form. For example, <code>ls -lhS</code> is equivalent to <code>ls -l -h -S</code>.</p>
 <h2 id="files-and-directories">Files and directories</h2>
 <p>The first task you will likely use the shell for is to browse through the <a href="#filesystem">filesystem</a> to work with files and directories (create, delete, move or edit them, execute programs, <em>etc.</em>). Think of the filesystem as a tree-like structure: leaves are files, branches are directories (and leaf-less branches are empty directories). An example of a part of a filesystem (as output by the <code>tree</code> command), with directories being coloured in blue and files in black is</p>
 <pre>
@@ -133,6 +140,20 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>In <a href="#unix-like">*nix</a> systems, the filesystem tree starts in the directory indicated by <code>/</code>, which is aptly called the <em>root</em> directory. When you open a shell (or a terminal), you will be placed in a starting directory which, most likely, will be your own home directory. By default, its path is <code>/home/your_username</code> (<em>e.g.</em> <code>/home/lorenzo</code>).</p>
 <p>You can use the <code>pwd</code> command, which prints to screen the name of the (current) working directory, to find out where you are. The same can be achieved by printing the <code>PWD</code> environment variable (<code>echo $PWD</code>), which Bash sets to the current directory every time the working directory is changed.</p>
 <p>You can change the current directory with the <code>cd</code> command. If you want to move to the <code>other_dir</code> directory just type <code>cd other_dir</code>. <code>cd</code> accepts both absolute and relative paths.</p>
+<h3 id="cd"><code>cd</code></h3>
+<ul>
+<li><code>cd ..</code> move to the parent of the current working directory</li>
+<li><code>cd -</code> move back to the previous working directory</li>
+<li><code>cd</code> or <code>cd ~</code> move to your home directory</li>
+</ul>
+<h3 id="ls"><code>ls</code></h3>
+<p><code>ls</code> is very powerful. Its output can be finely tuned by using the appropriate switches. Here are some of the switches (and switch combinations) I use the most:</p>
+<ul>
+<li><code>ls -lrth</code> show the entries in a long listing format (<code>-l</code>) with their size in human-readable form (<code>-h</code>) and sorted by reverse (<code>-r</code>) modification time (<code>-t</code>).</li>
+<li><code>ls -S</code> sort the entries by size (from large to small). Use <code>-r</code> to reverse the sorting</li>
+<li><code>ls -1</code> list one entry per line</li>
+<li><code>ls -d</code> list the directories themselves, not their content. File entries are not affected</li>
+</ul>
 <h2 id="redirection-and-piping">Redirection and piping</h2>
 <p>The main strength of Bash (and of all the other shells) comes from the <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a>, which can be summarised as <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <blockquote>

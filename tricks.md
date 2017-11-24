@@ -9,7 +9,10 @@ by Lorenzo Rovigatti
 -   [Introduction](#introduction)
     -   [How to use this book](#how-to-use-this-book)
 -   [Bash](#bash)
+    -   [Commands and programs](#commands-and-programs)
     -   [Files and directories](#files-and-directories)
+        -   [`cd`](#cd)
+        -   [`ls`](#ls)
     -   [Redirection and piping](#redirection-and-piping)
         -   [Input/output redirection](#inputoutput-redirection)
         -   [Piping](#piping)
@@ -102,6 +105,13 @@ communicate with and operate on the files and directories stored on the
 common use-cases and some examples. Use the `man` command as often as
 possible, and **never** use a command without knowing what it does.
 
+Commands and programs
+---------------------
+
+**Nota Bene:** Many commands (most of the default ones) support
+combining switches when used in their short form. For example, `ls -lhS`
+is equivalent to `ls -l -h -S`.
+
 Files and directories
 ---------------------
 
@@ -138,6 +148,27 @@ changed.
 You can change the current directory with the `cd` command. If you want
 to move to the `other_dir` directory just type `cd other_dir`. `cd`
 accepts both absolute and relative paths.
+
+### `cd`
+
+-   `cd ..` move to the parent of the current working directory
+-   `cd -` move back to the previous working directory
+-   `cd` or `cd ~` move to your home directory
+
+### `ls`
+
+`ls` is very powerful. Its output can be finely tuned by using the
+appropriate switches. Here are some of the switches (and switch
+combinations) I use the most:
+
+-   `ls -lrth` show the entries in a long listing format (`-l`) with
+    their size in human-readable form (`-h`) and sorted by reverse
+    (`-r`) modification time (`-t`).
+-   `ls -S` sort the entries by size (from large to small). Use `-r` to
+    reverse the sorting
+-   `ls -1` list one entry per line
+-   `ls -d` list the directories themselves, not their content. File
+    entries are not affected
 
 Redirection and piping
 ----------------------

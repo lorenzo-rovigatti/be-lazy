@@ -8,6 +8,10 @@ In the following I will assume that Bash is the default [shell](#shell) of your 
 
 **Nota Bene:** `man COMMAND` will show the manual associated to `COMMAND`, listing all the supported command-line arguments, the most common use-cases and some examples. Use the `man` command as often as possible, and **never** use a command without knowing what it does.
 
+## Commands and programs
+
+**Nota Bene:** Many commands (most of the default ones) support combining switches  when used in their short form. For example, `ls -lhS` is equivalent to `ls -l -h -S`.
+
 ## Files and directories
 
 The first task you will likely use the shell for is to browse through the [filesystem](#filesystem) to work with files and directories (create, delete, move or edit them, execute programs, *etc.*). Think of the filesystem as a tree-like structure: leaves are files, branches are directories (and leaf-less branches are empty directories). An example of a part of a filesystem (as output by the `tree` command), with directories being coloured in blue and files in black is
@@ -28,6 +32,21 @@ In [*nix](#unix-like) systems, the filesystem tree starts in the directory indic
 You can use the `pwd` command, which prints to screen the name of the (current) working directory, to find out where you are. The same can be achieved by printing the `PWD` environment variable (`echo $PWD`), which Bash sets to the current directory every time the working directory is changed.
 
 You can change the current directory with the `cd` command. If you want to move to the `other_dir` directory just type `cd other_dir`. `cd` accepts both absolute and relative paths.
+
+### `cd`
+
+* `cd ..` move to the parent of the current working directory
+* `cd -` move back to the previous working directory
+* `cd` or `cd ~` move to your home directory
+
+### `ls`
+
+`ls` is very powerful. Its output can be finely tuned by using the appropriate switches. Here are some of the switches (and switch combinations) I use the most:
+
+* `ls -lrth` show the entries in a long listing format (`-l`) with their size in human-readable form (`-h`) and sorted by reverse (`-r`) modification time (`-t`). 
+* `ls -S` sort the entries by size (from large to small). Use `-r` to reverse the sorting
+* `ls -1` list one entry per line
+* `ls -d` list the directories themselves, not their content. File entries are not affected
 
 ## Redirection and piping
 
