@@ -68,6 +68,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#inputoutput-redirection">Input/output redirection</a></li>
 <li><a href="#piping">Piping</a></li>
 </ul></li>
+<li><a href="#aliases">Aliases</a></li>
+<li><a href="#making-things-permanent-.bashrc"><del>Making things permanent: .bashrc</del></a></li>
 <li><a href="#if-statements"><del>&quot;if&quot; statements</del></a></li>
 <li><a href="#for-loops"><del>&quot;for&quot; loops</del></a></li>
 <li><a href="#useful-shortcuts">Useful shortcuts</a></li>
@@ -147,7 +149,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><code>cd</code> or <code>cd ~</code> move to your home directory</li>
 </ul>
 <h3 id="ls"><code>ls</code></h3>
-<p><code>ls</code> is very powerful. Its output can be finely tuned by using the appropriate switches. Here are some of the switches (and switch combinations) I use the most:</p>
+<p><code>ls</code> is very powerful. Its output can be finely tuned by using the appropriate switches. Here are some of the switches (and switch combinations) I find most useful:</p>
 <ul>
 <li><code>ls -lrth</code> show the entries in a long listing format (<code>-l</code>) with their size in human-readable form (<code>-h</code>) and sorted by reverse (<code>-r</code>) modification time (<code>-t</code>).</li>
 <li><code>ls -S</code> sort the entries by size (from large to small). Use <code>-r</code> to reverse the sorting</li>
@@ -186,10 +188,23 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><code>grep</code> to extract from the <code>prova.dat</code> file only those lines that contain integer numbers</li>
 <li><code>sort</code> to numerically sort them</li>
 <li><code>tail</code> to take the two largest numbers</li>
-<li><code>awk</code> to print the average over these two values</li>
+<li><code>awk</code> to print the average of these two values</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">grep</span> -E <span class="st">&quot;^[0-9]+$&quot;</span> prova.dat <span class="kw">|</span> <span class="kw">sort</span> -n <span class="kw">|</span> <span class="kw">tail</span> -n 2 <span class="kw">|</span> <span class="kw">awk</span> <span class="st">&#39;{a+=$1; t++} END {print a/t}&#39;</span></code></pre></div>
 <p>You do not have to understand all the details, but just realise the sheer power of being able to combine the multitude of basic commands that a modern Linux shell provides.</p>
+<h2 id="aliases">Aliases</h2>
+<p>With Bash it is possible to create shortcuts (aka <em>aliases</em>) for commands which are used often, difficult to remember or both. This can be easily done by using the <code>alias</code> built-in. For example, many versions of the <code>ls</code> command can colorise their output by passing it the <code>--color=auto</code> switch. On many Linux distributions (<em>e.g.</em> Ubuntu), <code>ls</code> is just an alias to <code>ls --color=auto</code>, set with:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">alias</span> ls=<span class="st">&#39;ls --color=auto&#39;</span></code></pre></div>
+<p>I do not use many aliases, but the ones I cannot do without are</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">alias</span> <span class="st">&#39;cp=cp -i&#39;</span>
+<span class="kw">alias</span> <span class="st">&#39;mv=mv -i&#39;</span>
+<span class="kw">alias</span> <span class="st">&#39;rm=rm -i&#39;</span>
+<span class="kw">alias</span> <span class="st">&#39;ll=ls -lh&#39;</span>
+<span class="kw">alias</span> <span class="st">&#39;ssh= ssh -Y&#39;</span></code></pre></div>
+<p>The <code>-i</code> in the first three makes them ask the user before overwriting or deleting any files. This makes it harder (but not impossible) to do stupid mistakes. The effect of <code>-i</code> can be counteracated by <code>-f</code>: <code>rm -f .</code> will <em>not</em> ask confirmation to delete all the files in the folder!</p>
+<p>The <code>-Y</code> switch passed to <code>ssh</code> enables X11 forwarding. In other words, makes it possible to remotely open applications that have X11-compatible graphical interfaces (<em>e.g.</em> plotting tools).</p>
+<p>If called without arguments, <code>alias</code> prints a list of the currently-defined aliases. <code>unalias</code> removes a previously-set alias. By default, once an alias has been defined, it will live till it is unaliased or the terminal it was defined in is closed. In order to make an alias permanent, put its definition in the <code>.bashrc</code> or <code>.bash_profile</code> files in your home folder. See <a href="#making-things-permanent-.bashrc">.bashrc</a> for more details.</p>
+<h2 id="making-things-permanent-.bashrc"><del>Making things permanent: .bashrc</del></h2>
 <h2 id="if-statements"><del>&quot;if&quot; statements</del></h2>
 <h2 id="for-loops"><del>&quot;for&quot; loops</del></h2>
 <h2 id="useful-shortcuts">Useful shortcuts</h2>

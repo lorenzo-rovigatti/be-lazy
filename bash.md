@@ -41,7 +41,7 @@ You can change the current directory with the `cd` command. If you want to move 
 
 ### `ls`
 
-`ls` is very powerful. Its output can be finely tuned by using the appropriate switches. Here are some of the switches (and switch combinations) I use the most:
+`ls` is very powerful. Its output can be finely tuned by using the appropriate switches. Here are some of the switches (and switch combinations) I find most useful:
 
 * `ls -lrth` show the entries in a long listing format (`-l`) with their size in human-readable form (`-h`) and sorted by reverse (`-r`) modification time (`-t`). 
 * `ls -S` sort the entries by size (from large to small). Use `-r` to reverse the sorting
@@ -93,13 +93,39 @@ Do not be deceived by the simplicity of the above example: the possibility of ch
 1. `grep` to extract from the `prova.dat` file only those lines that contain integer numbers
 2. `sort` to numerically sort them
 3. `tail` to take the two largest numbers
-4. `awk` to print the average over these two values
+4. `awk` to print the average of these two values
 
 ```bash
 grep -E "^[0-9]+$" prova.dat | sort -n | tail -n 2 | awk '{a+=$1; t++} END {print a/t}'
 ```
 
 You do not have to understand all the details, but just realise the sheer power of being able to combine the multitude of basic commands that a modern Linux shell provides.
+
+## Aliases
+
+With Bash it is possible to create shortcuts (aka *aliases*) for commands which are used often, difficult to remember or both. This can be easily done by using the `alias` built-in. For example, many versions of the `ls` command can colorise their output by passing it the `--color=auto` switch. On many Linux distributions (*e.g.* Ubuntu), `ls` is just an alias to `ls --color=auto`, set with:
+
+```bash
+alias ls='ls --color=auto'
+```
+
+I do not use many aliases, but the ones I cannot do without are
+
+```bash
+alias 'cp=cp -i'
+alias 'mv=mv -i'
+alias 'rm=rm -i'
+alias 'll=ls -lh'
+alias 'ssh= ssh -Y'
+```
+
+The `-i` in the first three makes them ask the user before overwriting or deleting any files. This makes it harder (but not impossible) to do stupid mistakes. The effect of `-i` can be counteracated by `-f`: `rm -f .` will *not* ask confirmation to delete all the files in the folder!
+
+The `-Y` switch passed to `ssh` enables X11 forwarding. In other words, makes it possible to remotely open applications that have X11-compatible graphical interfaces (*e.g.* plotting tools).
+
+If called without arguments, `alias` prints a list of the currently-defined aliases. `unalias` removes a previously-set alias. By default, once an alias has been defined, it will live till it is unaliased or the terminal it was defined in is closed. In order to make an alias permanent, put its definition in the `.bashrc` or `.bash_profile` files in your home folder. See [.bashrc](#making-things-permanent-.bashrc) for more details.
+
+## ~~Making things permanent: .bashrc~~
 
 ## ~~"if" statements~~
 
