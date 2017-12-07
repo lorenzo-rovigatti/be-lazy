@@ -10,7 +10,15 @@ In the following I will assume that Bash is the default [shell](#shell) of your 
 
 ## Commands and programs
 
-**Nota Bene:** Many commands (most of the default ones) support combining switches  when used in their short form. For example, `ls -lhS` is equivalent to `ls -l -h -S`.
+There are two types of shell commands: builtins and programs (there are also Bash [functions](http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-8.html), which behaves similarly to builtins). The former are a (small) number of commands that are provided by the shell out of the box. The ones I use the most are 
+
+* `alias` and `unalias` (see [Aliases](#aliases))
+* `echo`, which outputs its arguments and is often used to generate the input consumed by another program (see [piping](#piping))
+* `read`, which can be used to parse input lines by splitting them up into words and assigning them to shell variables
+
+The great majority of commands one uses are external programs. Many of the main (and most used) external programs are shipped in nearly every [*nix](#unix-like) distribution. Indeed, commands such as `ls`, `cd`, `mv`, `rm`, *etc.* are always available. However keep in mind that, while the bulk of their features is standard (either truly or *de facto*), their options differ from platform to platform. For instance, [GNU](https://www.gnu.org/home.html) provides some handy extensions that are not present on Apple systems.
+
+**Nota Bene:** Many commands (most of the default ones) support combining switches when these are used in their short form. For example, `ls -lhS` is equivalent to `ls -l -h -S`.
 
 ## Files and directories
 
@@ -80,7 +88,7 @@ In general, all the above output redirection signs will write the output of the 
 
 ### Piping
 
-If you follow the Unix philosophy, you will often need to feed a program with the output of another program. This is called *piping* and it is done through the `|` (pipe) symbol. The pipe tells the shell to redirect the standard output of the command on the left-hand side of the pipe  to the standard input of the command which is on the right-hand side of the pipe. For instance, take a directory containing a lot of files and/or folders. Imagine you want to have a look at the contents of the directory. This can be done by piping the output of `ls` (here complemented by the `-1` argument which tells `ls` to list one entry per line) to `less`, which is used to page through text, in this way:
+If you follow the Unix philosophy, you will often need to feed a program with the output of another program. This is called *piping* and it is done through the `|` (pipe) symbol. The pipe tells the shell to redirect the standard output of the command on the left-hand side of the pipe to the standard input of the command which is on the right-hand side of the pipe. For instance, take a directory containing a lot of files and/or folders. Imagine you want to have a look at the contents of the directory. This can be done by piping the output of `ls` (here complemented by the `-1` argument which tells `ls` to list one entry per line) to `less`, which is used to page through text, in this way:
 
 ```bash
 ls -1 | less
@@ -123,7 +131,7 @@ The `-i` in the first three makes them ask the user before overwriting or deleti
 
 The `-Y` switch passed to `ssh` enables X11 forwarding. In other words, makes it possible to remotely open applications that have X11-compatible graphical interfaces (*e.g.* plotting tools).
 
-If called without arguments, `alias` prints a list of the currently-defined aliases. `unalias` removes a previously-set alias. By default, once an alias has been defined, it will live till it is unaliased or the terminal it was defined in is closed. In order to make an alias permanent, put its definition in the `.bashrc` or `.bash_profile` files in your home folder. See [.bashrc](#making-things-permanent-.bashrc) for more details.
+If called without arguments, `alias` prints a list of the currently-defined aliases. `unalias` can be used to remove a previously-set alias. By default, once an alias has been defined, it will live till it is unaliased or the terminal it was defined in is closed. In order to make an alias permanent, put its definition in the `.bashrc` or `.bash_profile` files in your home folder. See [.bashrc](#making-things-permanent-.bashrc) for more details.
 
 ## ~~Making things permanent: .bashrc~~
 
