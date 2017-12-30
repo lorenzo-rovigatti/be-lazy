@@ -56,6 +56,8 @@ You can change the current directory with the `cd` command. If you want to move 
 * `ls -1` list one entry per line
 * `ls -d` list the directories themselves, not their content. File entries are not affected
 
+## ~~The Bash environment and the environment variables~~
+
 ## Redirection and piping
 
 The main strength of Bash (and of all the other shells) comes from the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy), which can be summarised as [^bash_philosophy]
@@ -131,9 +133,9 @@ The `-i` in the first three makes them ask the user before overwriting or deleti
 
 The `-Y` switch passed to `ssh` enables X11 forwarding. In other words, makes it possible to remotely open applications that have X11-compatible graphical interfaces (*e.g.* plotting tools).
 
-If called without arguments, `alias` prints a list of the currently-defined aliases. `unalias` can be used to remove a previously-set alias. By default, once an alias has been defined, it will live till it is unaliased or the terminal it was defined in is closed. In order to make an alias permanent, put its definition in the `.bashrc` or `.bash_profile` files in your home folder. See [.bashrc](#making-things-permanent-.bashrc) for more details.
+If called without arguments, `alias` prints a list of the currently-defined aliases. `unalias` can be used to remove a previously-set alias. By default, once an alias has been defined, it will live till it is unaliased or the terminal it was defined in is closed. In order to make an alias permanent, put its definition in the `.bashrc` or `.bash_profile` files in your home folder. See [.bashrc](#make-your-changes-permanent-.bashrc) for more details.
 
-## ~~Making things permanent: .bashrc~~
+## ~~Make your changes permanent: .bashrc~~
 
 ## ~~"if" statements~~
 
@@ -152,6 +154,6 @@ If called without arguments, `alias` prints a list of the currently-defined alia
 * `ctrl + p` previous command
 * `ctrl + n` next command
 * `ctrl + r` backward interactive command search
-* `ctrl + s` forward interactive command search (**NB:** `stty -ixon` should be first added to .bashrc)
+* `ctrl + s` forward interactive command search (**NB:** requires the command `stty -ixon` in the [.bashrc](#make-your-changes-permanent-.bashrc) file)
 
 [^bash_philosophy]: [http://www.catb.org/~esr/writings/taoup/html/ch01s06.html](http://www.catb.org/~esr/writings/taoup/html/ch01s06.html)
