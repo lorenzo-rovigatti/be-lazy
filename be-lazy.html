@@ -62,14 +62,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><a href="#cd"><code>cd</code></a></li>
 <li><a href="#ls"><code>ls</code></a></li>
+<li><a href="#executable-files"><del>Executable files</del></a></li>
 </ul></li>
+<li><a href="#variables">Variables</a></li>
+<li><a href="#the-bash-environment-and-environment-variables">The Bash environment and environment variables</a></li>
 <li><a href="#redirection-and-piping">Redirection and piping</a>
 <ul>
 <li><a href="#inputoutput-redirection">Input/output redirection</a></li>
 <li><a href="#piping">Piping</a></li>
 </ul></li>
 <li><a href="#aliases">Aliases</a></li>
-<li><a href="#making-things-permanent-.bashrc"><del>Making things permanent: .bashrc</del></a></li>
+<li><a href="#make-your-changes-permanent-.bashrc"><del>Make your changes permanent: .bashrc</del></a></li>
 <li><a href="#if-statements"><del>&quot;if&quot; statements</del></a></li>
 <li><a href="#for-loops"><del>&quot;for&quot; loops</del></a></li>
 <li><a href="#useful-shortcuts">Useful shortcuts</a></li>
@@ -115,8 +118,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 </script><noscript>&#108;&#x6f;&#114;&#x65;&#110;&#122;&#x6f;&#46;&#114;&#x6f;&#118;&#x69;&#x67;&#x61;&#116;&#116;&#x69;&#32;&#x61;&#116;&#32;&#x67;&#x6d;&#x61;&#x69;&#108;&#32;&#100;&#x6f;&#116;&#32;&#x63;&#x6f;&#x6d;</noscript> or to add your own solution to the book and create a pull request!</p>
 <h2 id="how-to-use-this-book">How to use this book</h2>
 <p>The book is written in <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> and translated to HTML using <a href="https://pandoc.org/">Pandoc</a>.</p>
-<p>The <code>tricks.md</code> and <code>tricks.html</code> files contain the entirety of the book in Markdown and HTML format, respectively.</p>
-<p>If you want to change the content of the book just edit one or more chapter files and then, if you have Bash and Pandoc installed on your system (and the Pandoc executable is in your path) compile the book from the source by running the <code>compile.sh</code> script. This will generate the <code>tricks.md</code>, <code>tricks.html</code> and <code>README.md</code> files.</p>
+<p>The <code>be-lazy.md</code> and <code>be-lazy.html</code> files contain the entirety of the book in Markdown and HTML format, respectively.</p>
+<p>If you want to change the content of the book just edit one or more chapter files and then, if you have Bash and Pandoc installed on your system (and the Pandoc executable is in your path) compile the book from the source by running the <code>compile.sh</code> script. This will generate the <code>be-lazy.md</code>, <code>be-lazy.html</code> and <code>README.md</code> files.</p>
 <p>This is not a book to be read in one take. On the contrary, it should be considered as a collection of tips &amp; tricks to be referred to when the need arises.</p>
 <p>I plan to add as many figures and examples as possible. These will be included in the source of the book.</p>
 <p><a href="https://creativecommons.org/licenses/by/4.0/"><img src="https://licensebuttons.net/l/by/4.0/80x15.png" alt="License: CC BY 4.0" /></a></p>
@@ -129,7 +132,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>There are two types of shell commands: builtins and programs (there are also Bash <a href="http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-8.html">functions</a>, which behaves similarly to builtins). The former are a (small) number of commands that are provided by the shell out of the box. The ones I use the most are</p>
 <ul>
 <li><code>alias</code> and <code>unalias</code> (see <a href="#aliases">Aliases</a>)</li>
-<li><code>echo</code>, which outputs its arguments and is often used to generate the input consumed by another program (see <a href="#piping">piping</a>)</li>
+<li><code>echo</code>, which outputs its arguments and is often used to generate the input consumed by another program (see <a href="#piping">Piping</a>)</li>
 <li><code>read</code>, which can be used to parse input lines by splitting them up into words and assigning them to shell variables</li>
 </ul>
 <p>The great majority of commands one uses are external programs. Many of the main (and most used) external programs are shipped in nearly every <a href="#unix-like">*nix</a> distribution. Indeed, commands such as <code>ls</code>, <code>cd</code>, <code>mv</code>, <code>rm</code>, <em>etc.</em> are always available. However keep in mind that, while the bulk of their features is standard (either truly or <em>de facto</em>), their options differ from platform to platform. For instance, <a href="https://www.gnu.org/home.html">GNU</a> provides some handy extensions that are not present on Apple systems.</p>
@@ -163,6 +166,26 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><code>ls -1</code> list one entry per line</li>
 <li><code>ls -d</code> list the directories themselves, not their content. File entries are not affected</li>
 </ul>
+<h3 id="executable-files"><del>Executable files</del></h3>
+<h2 id="variables">Variables</h2>
+<p>Similarly to any other programming language, Bash supports variables. However, Bash does not have data types, meaning that variables can contain integers, floating point numbers, strings, single characters, <em>etc.</em> Compared to more modern programming language, Bash variables feel somewhat quirky. However, they get the job done reasonably well. As an example, the following box contains a &quot;Hello World!&quot; example that makes use of variables:</p>
+<pre><code>#!/bin/bash
+TO_PRINT=&quot;Hello World!&quot;
+echo $TO_PRINT</code></pre>
+<p>There are several things that are worth noting:</p>
+<ol style="list-style-type: decimal">
+<li>The first line contains the so-called *shebang&quot;. A shebang (the character sequence <code>#!</code>, followed by a command) is used by the shell whenever a text file (commonly referred to as a <a href="#script">script</a>) is <a href="#executable-files">executed</a> in order to pass it to the right interpreter. For instance, the first line of a <code>python</code> script should be <code>#!/usr/bin/python</code> (or, even better <code>#!/usr/bin/env python</code>, as explained <a href="https://mail.python.org/pipermail/tutor/2007-June/054816.html">here</a>).</li>
+<li>The syntax for variable assignment is <code>KEY=VALUE</code>. <strong>NB:</strong> No spaces are allowed around the equal sign.</li>
+<li>The <em>value</em> of a variable can be accessed by prepending a <code>$</code> to the variable name .</li>
+</ol>
+<p><strong>Nota Bene:</strong> variables need not be declared. In fact, they can be used before even having been set or initialised! This is a common source of bugs, as shown by the following lines:</p>
+<pre><code>#!/bin/bash
+TO_PRINT=&quot;Hello World!&quot;
+echo $TO_PRNIT</code></pre>
+<p>The misspelt name of the variable will not cause any warnings or errors, and the code will misbehave.</p>
+<p>Variables defined with the syntax shown above are dubbed shell or local variables, as they exist only within the shell (or script) in which they are set or defined. The topic of <em>global</em> variables will be touched upon in the next section.</p>
+<h2 id="the-bash-environment-and-environment-variables">The Bash environment and environment variables</h2>
+<p>The Bash (or, more generally, shell) environment is the set of information that determines the shell behaviour (how it interacts with the user, how it accesses the system's resources, <em>etc.</em>). On a practical level, Bash uses the content of a variety of (global and user) configuration files spread throughout the filesystem to compile a list of key-value pairs: the environment. For each pair, the key is the <em>name</em> of the environment variable which can be used to access its value(s). Traditionally, these variable names are all uppercase. The complete list of environment variables (that is, the whole environment) can be printed with the <code>printenv</code> command.</p>
 <h2 id="redirection-and-piping">Redirection and piping</h2>
 <p>The main strength of Bash (and of all the other shells) comes from the <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a>, which can be summarised as <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <blockquote>
@@ -210,8 +233,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <span class="kw">alias</span> <span class="st">&#39;ssh= ssh -Y&#39;</span></code></pre></div>
 <p>The <code>-i</code> in the first three makes them ask the user before overwriting or deleting any files. This makes it harder (but not impossible) to do stupid mistakes. The effect of <code>-i</code> can be counteracated by <code>-f</code>: <code>rm -f .</code> will <em>not</em> ask confirmation to delete all the files in the folder!</p>
 <p>The <code>-Y</code> switch passed to <code>ssh</code> enables X11 forwarding. In other words, makes it possible to remotely open applications that have X11-compatible graphical interfaces (<em>e.g.</em> plotting tools).</p>
-<p>If called without arguments, <code>alias</code> prints a list of the currently-defined aliases. <code>unalias</code> can be used to remove a previously-set alias. By default, once an alias has been defined, it will live till it is unaliased or the terminal it was defined in is closed. In order to make an alias permanent, put its definition in the <code>.bashrc</code> or <code>.bash_profile</code> files in your home folder. See <a href="#making-things-permanent-.bashrc">.bashrc</a> for more details.</p>
-<h2 id="making-things-permanent-.bashrc"><del>Making things permanent: .bashrc</del></h2>
+<p>If called without arguments, <code>alias</code> prints a list of the currently-defined aliases. <code>unalias</code> can be used to remove a previously-set alias. By default, once an alias has been defined, it will live till it is unaliased or the terminal it was defined in is closed. In order to make an alias permanent, put its definition in the <code>.bashrc</code> or <code>.bash_profile</code> files in your home folder. See <a href="#make-your-changes-permanent-.bashrc">.bashrc</a> for more details.</p>
+<h2 id="make-your-changes-permanent-.bashrc"><del>Make your changes permanent: .bashrc</del></h2>
 <h2 id="if-statements"><del>&quot;if&quot; statements</del></h2>
 <h2 id="for-loops"><del>&quot;for&quot; loops</del></h2>
 <h2 id="useful-shortcuts">Useful shortcuts</h2>
@@ -227,7 +250,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><code>ctrl + p</code> previous command</li>
 <li><code>ctrl + n</code> next command</li>
 <li><code>ctrl + r</code> backward interactive command search</li>
-<li><code>ctrl + s</code> forward interactive command search (<strong>NB:</strong> <code>stty -ixon</code> should be first added to .bashrc)</li>
+<li><code>ctrl + s</code> forward interactive command search (<strong>NB:</strong> it requires the command <code>stty -ixon</code> in the <a href="#make-your-changes-permanent-.bashrc">.bashrc</a> file)</li>
 </ul>
 <hr />
 <h1 id="command-line-tools"><del>Command-line tools</del></h1>
@@ -367,6 +390,10 @@ User lorenzo
 <dt><a id="filesystem" class="glossary_entry">Filesystem</a></dt>
 <dd><p>The data structure used by the OS to manage and provide access to the files and directories to a user (<a href="https://en.wikipedia.org/wiki/File_system">wikipedia</a>)</p>
 </dd>
+</dl>
+<p><a id="script" class="glossary_entry">Script</a></p>
+<p>TODO</p>
+<dl>
 <dt><a id="shell" class="glossary_entry">Shell</a></dt>
 <dd><p>The interface through which a user access the operating system's services. Although shells are, in general, either graphic user interfaces (GUIs) or command-line interfaces (CLIs), the term &quot;shell&quot; is most often used to refer to CLIs (<a href="https://en.wikipedia.org/wiki/Shell_(computing)">wikipedia</a>)</p>
 </dd>

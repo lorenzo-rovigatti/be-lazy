@@ -29,14 +29,14 @@ The book is written in
 [Markdown](https://en.wikipedia.org/wiki/Markdown) and translated to
 HTML using [Pandoc](https://pandoc.org/).
 
-The `tricks.md` and `tricks.html` files contain the entirety of the book
-in Markdown and HTML format, respectively.
+The `be-lazy.md` and `be-lazy.html` files contain the entirety of the
+book in Markdown and HTML format, respectively.
 
 If you want to change the content of the book just edit one or more
 chapter files and then, if you have Bash and Pandoc installed on your
 system (and the Pandoc executable is in your path) compile the book from
 the source by running the `compile.sh` script. This will generate the
-`tricks.md`, `tricks.html` and `README.md` files.
+`be-lazy.md`, `be-lazy.html` and `README.md` files.
 
 This is not a book to be read in one take. On the contrary, it should be
 considered as a collection of tips & tricks to be referred to when the

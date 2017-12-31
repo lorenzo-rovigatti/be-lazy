@@ -13,7 +13,7 @@ In the following I will assume that Bash is the default [shell](#shell) of your 
 There are two types of shell commands: builtins and programs (there are also Bash [functions](http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-8.html), which behaves similarly to builtins). The former are a (small) number of commands that are provided by the shell out of the box. The ones I use the most are 
 
 * `alias` and `unalias` (see [Aliases](#aliases))
-* `echo`, which outputs its arguments and is often used to generate the input consumed by another program (see [piping](#piping))
+* `echo`, which outputs its arguments and is often used to generate the input consumed by another program (see [Piping](#piping))
 * `read`, which can be used to parse input lines by splitting them up into words and assigning them to shell variables
 
 The great majority of commands one uses are external programs. Many of the main (and most used) external programs are shipped in nearly every [*nix](#unix-like) distribution. Indeed, commands such as `ls`, `cd`, `mv`, `rm`, *etc.* are always available. However keep in mind that, while the bulk of their features is standard (either truly or *de facto*), their options differ from platform to platform. For instance, [GNU](https://www.gnu.org/home.html) provides some handy extensions that are not present on Apple systems.
@@ -56,7 +56,40 @@ You can change the current directory with the `cd` command. If you want to move 
 * `ls -1` list one entry per line
 * `ls -d` list the directories themselves, not their content. File entries are not affected
 
-## ~~The Bash environment and the environment variables~~
+### ~~Executable files~~
+
+## Variables
+
+Similarly to any other programming language, Bash supports variables. However, Bash does not have data types, meaning that variables can contain integers, floating point numbers, strings, single characters, *etc.*
+Compared to more modern programming language, Bash variables feel somewhat quirky. However, they get the job done reasonably well. As an example, the following box contains a "Hello World!" example that makes use of variables:
+
+```
+#!/bin/bash
+TO_PRINT="Hello World!"
+echo $TO_PRINT
+```
+
+There are several things that are worth noting:
+
+1. The first line contains the so-called *shebang". A shebang (the character sequence `#!`, followed by a command) is used by the shell whenever a text file (commonly referred to as a [script](#script)) is [executed](#executable-files) in order to pass it to the right interpreter. For instance, the first line of a `python` script should be `#!/usr/bin/python` (or, even better `#!/usr/bin/env python`, as explained [here](https://mail.python.org/pipermail/tutor/2007-June/054816.html)).
+2. The syntax for variable assignment is `KEY=VALUE`. **NB:** No spaces are allowed around the equal sign.
+3. The *value* of a variable can be accessed by prepending a `$` to the variable name .
+
+**Nota Bene:** variables need not be declared. In fact, they can be used before even having been set or initialised! This is a common source of bugs, as shown by the following lines:
+
+```
+#!/bin/bash
+TO_PRINT="Hello World!"
+echo $TO_PRNIT
+```
+
+The misspelt name of the variable will not cause any warnings or errors, and the code will misbehave.
+
+Variables defined with the syntax shown above are dubbed shell or local variables, as they exist only within the shell (or script) in which they are set or defined. The topic of *global* variables will be touched upon in the next section.
+
+## The Bash environment and environment variables
+
+The Bash (or, more generally, shell) environment is the set of information that determines the shell behaviour (how it interacts with the user, how it accesses the system's resources, *etc.*). On a practical level, Bash uses the content of a variety of (global and user) configuration files spread throughout the filesystem to compile a list of key-value pairs: the environment. For each pair, the key is the *name* of the environment variable which can be used to access its value(s). Traditionally, these variable names are all uppercase. The complete list of environment variables (that is, the whole environment) can be printed with the `printenv` command.
 
 ## Redirection and piping
 
@@ -154,6 +187,6 @@ If called without arguments, `alias` prints a list of the currently-defined alia
 * `ctrl + p` previous command
 * `ctrl + n` next command
 * `ctrl + r` backward interactive command search
-* `ctrl + s` forward interactive command search (**NB:** requires the command `stty -ixon` in the [.bashrc](#make-your-changes-permanent-.bashrc) file)
+* `ctrl + s` forward interactive command search (**NB:** it requires the command `stty -ixon` in the [.bashrc](#make-your-changes-permanent-.bashrc) file)
 
 [^bash_philosophy]: [http://www.catb.org/~esr/writings/taoup/html/ch01s06.html](http://www.catb.org/~esr/writings/taoup/html/ch01s06.html)

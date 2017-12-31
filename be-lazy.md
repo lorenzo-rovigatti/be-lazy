@@ -13,12 +13,16 @@ by Lorenzo Rovigatti
     -   [Files and directories](#files-and-directories)
         -   [`cd`](#cd)
         -   [`ls`](#ls)
+        -   [~~Executable files~~](#executable-files)
+    -   [Variables](#variables)
+    -   [The Bash environment and environment
+        variables](#the-bash-environment-and-environment-variables)
     -   [Redirection and piping](#redirection-and-piping)
         -   [Input/output redirection](#inputoutput-redirection)
         -   [Piping](#piping)
     -   [Aliases](#aliases)
-    -   [~~Making things permanent:
-        .bashrc~~](#making-things-permanent-.bashrc)
+    -   [~~Make your changes permanent:
+        .bashrc~~](#make-your-changes-permanent-.bashrc)
     -   [~~"if" statements~~](#if-statements)
     -   [~~"for" loops~~](#for-loops)
     -   [Useful shortcuts](#useful-shortcuts)
@@ -67,14 +71,14 @@ The book is written in
 [Markdown](https://en.wikipedia.org/wiki/Markdown) and translated to
 HTML using [Pandoc](https://pandoc.org/).
 
-The `tricks.md` and `tricks.html` files contain the entirety of the book
-in Markdown and HTML format, respectively.
+The `be-lazy.md` and `be-lazy.html` files contain the entirety of the
+book in Markdown and HTML format, respectively.
 
 If you want to change the content of the book just edit one or more
 chapter files and then, if you have Bash and Pandoc installed on your
 system (and the Pandoc executable is in your path) compile the book from
 the source by running the `compile.sh` script. This will generate the
-`tricks.md`, `tricks.html` and `README.md` files.
+`be-lazy.md`, `be-lazy.html` and `README.md` files.
 
 This is not a book to be read in one take. On the contrary, it should be
 considered as a collection of tips & tricks to be referred to when the
@@ -120,7 +124,7 @@ the most are
 
 -   `alias` and `unalias` (see [Aliases](#aliases))
 -   `echo`, which outputs its arguments and is often used to generate
-    the input consumed by another program (see [piping](#piping))
+    the input consumed by another program (see [Piping](#piping))
 -   `read`, which can be used to parse input lines by splitting them up
     into words and assigning them to shell variables
 
@@ -194,6 +198,68 @@ combinations) I find most useful:
 -   `ls -1` list one entry per line
 -   `ls -d` list the directories themselves, not their content. File
     entries are not affected
+
+### ~~Executable files~~
+
+Variables
+---------
+
+Similarly to any other programming language, Bash supports variables.
+However, Bash does not have data types, meaning that variables can
+contain integers, floating point numbers, strings, single characters,
+*etc.* Compared to more modern programming language, Bash variables feel
+somewhat quirky. However, they get the job done reasonably well. As an
+example, the following box contains a "Hello World!" example that makes
+use of variables:
+
+    #!/bin/bash
+    TO_PRINT="Hello World!"
+    echo $TO_PRINT
+
+There are several things that are worth noting:
+
+1.  The first line contains the so-called \*shebang". A shebang (the
+    character sequence `#!`, followed by a command) is used by the shell
+    whenever a text file (commonly referred to as a [script](#script))
+    is [executed](#executable-files) in order to pass it to the
+    right interpreter. For instance, the first line of a `python` script
+    should be `#!/usr/bin/python` (or, even better
+    `#!/usr/bin/env python`, as explained
+    [here](https://mail.python.org/pipermail/tutor/2007-June/054816.html)).
+2.  The syntax for variable assignment is `KEY=VALUE`. **NB:** No spaces
+    are allowed around the equal sign.
+3.  The *value* of a variable can be accessed by prepending a `$` to the
+    variable name .
+
+**Nota Bene:** variables need not be declared. In fact, they can be used
+before even having been set or initialised! This is a common source of
+bugs, as shown by the following lines:
+
+    #!/bin/bash
+    TO_PRINT="Hello World!"
+    echo $TO_PRNIT
+
+The misspelt name of the variable will not cause any warnings or errors,
+and the code will misbehave.
+
+Variables defined with the syntax shown above are dubbed shell or local
+variables, as they exist only within the shell (or script) in which they
+are set or defined. The topic of *global* variables will be touched upon
+in the next section.
+
+The Bash environment and environment variables
+----------------------------------------------
+
+The Bash (or, more generally, shell) environment is the set of
+information that determines the shell behaviour (how it interacts with
+the user, how it accesses the system's resources, *etc.*). On a
+practical level, Bash uses the content of a variety of (global and user)
+configuration files spread throughout the filesystem to compile a list
+of key-value pairs: the environment. For each pair, the key is the
+*name* of the environment variable which can be used to access its
+value(s). Traditionally, these variable names are all uppercase. The
+complete list of environment variables (that is, the whole environment)
+can be printed with the `printenv` command.
 
 Redirection and piping
 ----------------------
@@ -344,10 +410,10 @@ previously-set alias. By default, once an alias has been defined, it
 will live till it is unaliased or the terminal it was defined in is
 closed. In order to make an alias permanent, put its definition in the
 `.bashrc` or `.bash_profile` files in your home folder. See
-[.bashrc](#making-things-permanent-.bashrc) for more details.
+[.bashrc](#make-your-changes-permanent-.bashrc) for more details.
 
-~~Making things permanent: .bashrc~~
-------------------------------------
+~~Make your changes permanent: .bashrc~~
+----------------------------------------
 
 ~~"if" statements~~
 -------------------
@@ -371,8 +437,9 @@ Useful shortcuts
 -   `ctrl + p` previous command
 -   `ctrl + n` next command
 -   `ctrl + r` backward interactive command search
--   `ctrl + s` forward interactive command search (**NB:** `stty -ixon`
-    should be first added to .bashrc)
+-   `ctrl + s` forward interactive command search (**NB:** it requires
+    the command `stty -ixon` in the
+    [.bashrc](#make-your-changes-permanent-.bashrc) file)
 
 ------------------------------------------------------------------------
 
@@ -755,6 +822,10 @@ Glossary
 :   The data structure used by the OS to manage and provide access to
     the files and directories to a user
     ([wikipedia](https://en.wikipedia.org/wiki/File_system))
+
+<a id="script" class="glossary_entry">Script</a>
+
+TODO
 
 <a id="shell" class="glossary_entry">Shell</a>
 
