@@ -83,9 +83,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#cat-cut-and-paste"><del>cat, cut and paste</del></a></li>
 <li><a href="#grep-find-and-locate"><del>grep, find and locate</del></a></li>
 </ul></li>
-<li><a href="#plotting"><del>Plotting</del></a>
+<li><a href="#plotting">Plotting</a>
 <ul>
-<li><a href="#xmgrace"><del>xmgrace</del></a></li>
+<li><a href="#xmgrace">xmgrace</a>
+<ul>
+<li><a href="#improve-the-default-style">Improve the default style</a></li>
+<li><a href="#add-colours"><del>Add colours</del></a></li>
+</ul></li>
 </ul></li>
 <li><a href="#ssh">SSH</a>
 <ul>
@@ -258,8 +262,18 @@ echo $TO_PRNIT</code></pre>
 <h2 id="cat-cut-and-paste"><del>cat, cut and paste</del></h2>
 <h2 id="grep-find-and-locate"><del>grep, find and locate</del></h2>
 <hr />
-<h1 id="plotting"><del>Plotting</del></h1>
-<h2 id="xmgrace"><del>xmgrace</del></h2>
+<h1 id="plotting">Plotting</h1>
+<p>There exists a lot of software devoted to the production of scientific (or more in general, data) plots. However, almost every single scientific community has its own preferred tool. The most common in my own community are <a href="http://plasma-gate.weizmann.ac.il/Grace/">xmgrace</a>, gnuplot, Mathematica and matplotlib.</p>
+<h2 id="xmgrace">xmgrace</h2>
+<p>For unknown (but mostly historical, I suppose) reasons, many people in the water/numerical soft matter communities love to use <a href="http://plasma-gate.weizmann.ac.il/Grace/">xmgrace</a>. It is ugly, old and supports 2D graphics only, but if your PhD advisor uses it, chances are you will have to get used to it as well 😄</p>
+<h3 id="improve-the-default-style">Improve the default style</h3>
+<p>There is no other way of putting it: the default xmgrace style sucks. Hard. The great majority of the people who start using it goes through the process of setting up the graph style for every single plot they need to prepare. Fortunately, xmgrace provides an easy way out:</p>
+<ul>
+<li>take an empty <code>agr</code> file and edit its style to suit your needs</li>
+<li>name it <code>Default.agr</code> and place it in the <code>~/.grace/templates/</code> folder. Note that it might be necessary to create the folder beforehand</li>
+</ul>
+<p>My <code>Default.agr</code>, which can be used as a starting point to make your own custom style, is included in the <code>misc</code> folder.</p>
+<h3 id="add-colours"><del>Add colours</del></h3>
 <hr />
 <h1 id="ssh">SSH</h1>
 <p>Connecting through <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself SSH-ing to this or that computer quite often. If you have an account <code>lorenzo</code> on the <code>powercluster.cool.univ.com</code> machine, you can use the following command to establish a remote connection with it<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
