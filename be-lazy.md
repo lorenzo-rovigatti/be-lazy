@@ -471,40 +471,58 @@ Coding
 Exposing c/c++ code to Python with Boost Python
 -----------------------------------------------
 
-On Ubuntu (and, I suppose, on other Debian-related distros) Boost Python
+There are many ways to create dynamic libraries written in c or c++ that
+can directly imported by Python. Here we will discuss Boost Python. On
+Ubuntu (and, I suppose, on other Debian-related distros) Boost Python
 requires the `libboost-python-dev` package.
 
-Here is a simple example. Copy the following c++ code to the "Foo.cpp"
+**Nota Bene:** Boost is a collection of very powerful c++ libraries.
+However, since c++ is (roughly speaking) a subset of c, Boost Python can
+also be used to create python bindings for code written in c. However,
+note that the code will have to be compiled with `g++` (or an equivalent
+c++ compiler).
+
+Here is a simple example that will generate a dynamic library exposing a
+class and a function to python. Copy the following code to the "Foo.cpp"
 file:
 
-    #include <iostream>
-    #include <boost/python.hpp>
+``` {.cpp}
+#include <iostream>
+#include <boost/python.hpp>
 
-    class Foo {
-    public:
-        Foo() {
+class Foo {
+public:
+    Foo() {
 
-        }
-        virtual ~Foo() {
-
-        }
-        void print_something(std::string something) {
-                std::cout << something << std::endl;
-        }
-        void print_special(std::string special) {
-            std::cout << "special: " << special << std::endl;
-        }
-    };
-
-    BOOST_PYTHON_MODULE(foo) {
-        boost::python::class_<Foo>("Foo")
-                .def("print_something", &Foo::print_something);
     }
+    virtual ~Foo() {
 
-Now that the c++ code is ready and we have decided the interface that
-should be exposed to python (in this case a class with the default
-constructor and one of its two public methods), we compile everything in
-a shared library:
+    }
+    void print_something(std::string something) {
+            std::cout << something << std::endl;
+    }
+    void print_special(std::string special) {
+        std::cout << "special: " << special << std::endl;
+    }
+};
+
+void print_without_class(std::string something) {
+    std::cout << something << std::endl;
+}
+
+BOOST_PYTHON_MODULE(foo) {
+    boost::python::class_<Foo>("Foo")
+            .def("print_something", &Foo::print_something);
+            
+    def("print_without_class", print_without_class);
+}
+```
+
+Not all the public interface functions and methods have to be exposed to
+python. For this specific example, we have decided to export a function
+and a class with the default constructor and one of its two public
+methods). Now we build the shared libray. Pay attention to the arguments
+of the `-I` and `-l` options:
 
     g++ -fPIC -I/usr/include/python2.7  -c Foo.cpp -o foo.o
     g++ -shared -o foo.so foo.o -lpython2.7 -lboost_python -lboost_system
@@ -512,14 +530,18 @@ a shared library:
 We have nothing else to do: the library is now freely importable by
 python:
 
-    >>> import foo
-    >>> f = foo.Foo()
-    >>> f.print_something("Hello, world!")
-    Hello, world!
-    >>> f.print_special("My special text")
-    Traceback (most recent call last):
-      File "<stdin>", line 1, in <module>
-    AttributeError: 'Foo' object has no attribute 'print_special'
+``` {.python}
+>>> import foo
+>>> f = foo.Foo()
+>>> f.print_something("Hello, world!")
+Hello, world!
+>>> foo.print_without_class("I hate classes!")
+I hate classes!
+>>> f.print_special("My special text")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Foo' object has no attribute 'print_special'
+```
 
 As can be seen from the error above, only the methods, classes and
 functions that are explicitly mentioned in the exporting function can be
@@ -545,27 +567,31 @@ end of each `.cpp` file we put a function that performs the actual
 exporting. For example, burrowing from the previously-defined `Foo`
 class one might have:
 
-    void export_foo() {
-        boost::python::class_<Foo>("Foo")
-                .def("print_something", &Foo::print_something);
-        /* export here everything that needs to be exported for this compilation unit */
-    }
+``` {.cpp}
+void export_foo() {
+    boost::python::class_<Foo>("Foo")
+            .def("print_something", &Foo::print_something);
+    /* export here everything that needs to be exported for this compilation unit */
+}
+```
 
 Now we round up all these exporting function in a single file
 `mylib.cpp` where the actual module-creation is carried out. For the
 specific case considered here, the content of such a file would be
 
-    #include "Foo.h"
-    #include "Bar.h"
-    #include <boost/python.hpp>
+``` {.cpp}
+#include "Foo.h"
+#include "Bar.h"
+#include <boost/python.hpp>
 
-    void export_foo();
-    void export_bar();
+void export_foo();
+void export_bar();
 
-    BOOST_PYTHON_MODULE(mylib) {
-        export_foo();
-        export_bar();
-    }
+BOOST_PYTHON_MODULE(mylib) {
+    export_foo();
+    export_bar();
+}
+```
 
 ### Compiling with CMake
 
