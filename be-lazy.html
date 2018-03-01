@@ -112,12 +112,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><a href="#gdb">GDB</a></li>
 </ul></li>
-<li><a href="#uncategorized">Uncategorized</a>
-<ul>
-<li><a href="#setting-up-nfs">Setting up NFS</a></li>
-<li><a href="#making-movies">Making movies</a></li>
-<li><a href="#adding-a-fading-rounded-border-to-figures-with-gimp">Adding a fading, rounded border to figures with GIMP</a></li>
-</ul></li>
 <li><a href="#glossary">Glossary</a></li>
 </ul>
 <h1 id="introduction">Introduction</h1>
@@ -456,45 +450,6 @@ User lorenzo
 <li><code>info locals</code> display the name and value of all local variables.</li>
 <li><code>disable 1</code> disable breakpoint number 1.</li>
 </ul>
-<hr />
-<h1 id="uncategorized">Uncategorized</h1>
-<h2 id="setting-up-nfs">Setting up NFS</h2>
-<p><a href="https://en.wikipedia.org/wiki/Network_File_System">NFS</a> (Network File System) is a protocol that makes it possible to remotely (and transparently) access a file system over the network. Here I will explain how to setup a remote machine (aka the <em>server</em>) so that a local machine (aka the <em>client</em>) can have access to one or more of its directories.</p>
-<ol style="list-style-type: decimal">
-<li>Install the NFS server. On Ubuntu, this boils down to installing the <code>nfs-kernel-server</code> package.</li>
-<li><p>Open (with root privilegies) the /etc/exports file. Add a line for each folder you want to export. The syntax is</p>
-<p><code>PATH_TO_DIRECTORY  CLIENT(OPTIONS)</code></p>
-<p>Note the lack of whitespace between CLIENT and the open parenthesis. The CLIENT field can be an IP address or a DNS name and can contain wildcards (<em>e.g.</em> <code>*</code> or <code>?</code>). The list of available options depend on the NFS server version and can be found online (for example <a href="https://linux.die.net/man/5/exports">here</a>). Valid configuration examples are</p>
-<p><code>/home/lorenzo/RESULTS 192.168.0.10(rw,no_root_squash)</code> <code>/home/lorenzo/RESULTS *(ro,no_root_squash)</code></p>
-<p>The above lines export the <code>/home/lorenzo/RESULTS</code> directory in read/write mode for the client identified by the IP address <code>192.168.0.10</code> and in read-only mode for everybody else.</p></li>
-<li>Restart the NFS server. On many Linux distros this can be done with the command <code>sudo service nfs-kernel-server restart</code></li>
-<li>On the client, install the NFS client (the <code>nfs-common</code> package on Ubuntu)</li>
-<li><p>The remote filesystem can be mounted either manually (<code>sudo mount 192.168.0.1:/home/lorenzo/RESULTS /home/lorenzo/SERVER_RESULTS</code>) or automatically by adding a line like this to the <code>/etc/fstab</code> file:</p>
-<p><code>192.168.0.1:/home/lorenzo/RESULTS /home/lorenzo/SERVER_RESULTS nfs rw,user,auto 0 0</code></p>
-<p>and then using <code>sudo mount -a</code>. Here I assumed that the server has IP address <code>192.168.0.1</code> and that the directory <code>/home/lorenzo/CLIENT_RESULTS</code> exists on the client.</p></li>
-</ol>
-<p><strong>Nota Bene:</strong> on default installations, the shared directories are owned by the user and group identified by the <code>uid</code> and <code>gid</code> of the server, respectively. If the user on the client has a different <code>uid</code> and/or <code>gid</code>, its access to these directories may be limited. If this is the case (and if you are sure there will be no issues arising from such a drastic change) the best course of action is to change the user and group ids on either machine in order to make them match. This can done with the <code>usermod</code> command (<em>e.g.</em> <code>usermod -g 1110 -u 1205 lorenzo</code> will change lorenzo's <code>gid</code> and <code>uid</code> to 1110 and 1205, respectively). Note that <code>usermod</code> will change the ownership of all the files and directories that are in the user's home directory and are owned by them. The ownership of any other file or directory must be fixed manually.</p>
-<h2 id="making-movies">Making movies</h2>
-<p>We would like to generate a movie out of a (maybe very long) list of png images. We first create a file containing the list of png files sorted according to the order with which they should appear in the movie. If the names of the files are <code>img-1.png</code>, <code>img-2.png</code>, <em>etc.</em>, this can be accomplished by typing</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ls</span> -1v img-*.png <span class="kw">&gt;</span> list.dat</code></pre></div>
-<p>The <code>-v</code> option is a GNU extension that tells <code>ls</code> to order entries according to the natural sorting of the numbers contained in the entry names. If on your system this option is not supported or it does something else (this might be the case on BSD/OSX systems), then you can use the following command</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ls</span> -1 img-*.png <span class="kw">|</span> <span class="kw">sort</span> -n -t<span class="st">&#39;-&#39;</span> -k 2 <span class="kw">&gt;</span> list.dat</code></pre></div>
-<p><code>-n</code> applies natural sorting, <code>-t'-'</code> tells sort to use dashes as the separators to split the entries it acts on into fields and <code>-k 2</code> to sort according to the value of the second field</p>
-<p>A movie of width WIDTH, height HEIGHT and framerate FPS can now be generated by using <code>mencoder</code> with the following options:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">mencoder</span> mf://@list.dat -mf w=WIDTH:h=HEIGHT:fps=FPS:type=png -ovc xvid -xvidencopts bitrate=200 -o output.avi</code></pre></div>
-<p>The <code>-ovc xvid</code> controls the type of output and may not be suitable on all systems (or for all the purposes). The <code>-xvidencopts bitrate=200</code> option sets a sort of <em>overall</em> quality of the output.</p>
-<h2 id="adding-a-fading-rounded-border-to-figures-with-gimp">Adding a fading, rounded border to figures with GIMP</h2>
-<ol style="list-style-type: decimal">
-<li>Select the whole picture (<code>ctrl + a</code>)</li>
-<li>Shrink the border by an appropriate amount of pixels (Select → Shrink). I would say no more than 10% of the figure size.</li>
-<li>Round the selection (Select → Rounded Rectangle)</li>
-<li>Invert the selection (<code>ctrl + i</code>)</li>
-<li>Feather the border (Select → Feather). I usually choose a number similar to the one used in step 2.</li>
-<li>Delete the selected region (press delete)</li>
-<li>Turn white into alpha (Colours → Colour to Alpha)</li>
-<li>Create a new layer (same width and height as the figure) and put it underneath all other layers</li>
-<li>Fill the layer with the background colour you want your picture to fade to at the border (usually black)</li>
-</ol>
 <hr />
 <h1 id="glossary">Glossary</h1>
 <dl>
