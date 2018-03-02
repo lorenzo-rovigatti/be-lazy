@@ -654,10 +654,10 @@ Hard. The great majority of the people who start using it goes through
 the process of setting up the graph style for every single plot they
 need to prepare. Fortunately, xmgrace provides an easy way out:
 
--   take an empty `agr` file and edit its style to suit your needs
--   name it `Default.agr` and place it in the
+-   Take an empty `agr` file and edit its style to suit your needs.
+-   Name it `Default.agr` and place it in the
     `~/.grace/templates/` folder. Note that it might be necessary to
-    create the folder beforehand
+    create the folder beforehand.
 
 My actual `Default.agr`, which can be used as a starting point to make
 your own custom style, is included in the `misc` folder.
@@ -669,10 +669,13 @@ least. Luckily, it is very easy to change the default colours. Open your
 `Default.agr` (see previous section) and look for the `@map color`
 lines. Add any line you want (taking care not to have repeated colour
 indeces), or change the existing ones. Colours should be specified with
-the RGB format and are always fully opaque. Once you are done just save
-the file and open `xmgrace`. You will be greeted by a (hopefully) much
-more colourful palette! For instance, the following lines (which are
-contained in the `misc/Default.agr` example file)
+the RGB format and are always fully opaque.
+
+Once you are done just save the file and open `xmgrace`. You will be
+greeted by a (hopefully) much more colourful palette!
+
+For instance, the following lines (contained in the `misc/Default.agr`
+example file)
 
     @map color 0 to (255, 255, 255), "white"
     @map color 1 to (0, 0, 0), "black"

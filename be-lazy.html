@@ -360,12 +360,14 @@ ENDIF(APPLE)</code></pre>
 <h3 id="improve-the-default-style">Improve the default style</h3>
 <p>There is no other way of putting it: the default xmgrace style sucks. Hard. The great majority of the people who start using it goes through the process of setting up the graph style for every single plot they need to prepare. Fortunately, xmgrace provides an easy way out:</p>
 <ul>
-<li>take an empty <code>agr</code> file and edit its style to suit your needs</li>
-<li>name it <code>Default.agr</code> and place it in the <code>~/.grace/templates/</code> folder. Note that it might be necessary to create the folder beforehand</li>
+<li>Take an empty <code>agr</code> file and edit its style to suit your needs.</li>
+<li>Name it <code>Default.agr</code> and place it in the <code>~/.grace/templates/</code> folder. Note that it might be necessary to create the folder beforehand.</li>
 </ul>
 <p>My actual <code>Default.agr</code>, which can be used as a starting point to make your own custom style, is included in the <code>misc</code> folder.</p>
 <h3 id="upgrade-the-default-colours">Upgrade the default colours</h3>
-<p>The default xmgrace colour palette is quite lackluster, to say the least. Luckily, it is very easy to change the default colours. Open your <code>Default.agr</code> (see previous section) and look for the <code>@map color</code> lines. Add any line you want (taking care not to have repeated colour indeces), or change the existing ones. Colours should be specified with the RGB format and are always fully opaque. Once you are done just save the file and open <code>xmgrace</code>. You will be greeted by a (hopefully) much more colourful palette! For instance, the following lines (which are contained in the <code>misc/Default.agr</code> example file)</p>
+<p>The default xmgrace colour palette is quite lackluster, to say the least. Luckily, it is very easy to change the default colours. Open your <code>Default.agr</code> (see previous section) and look for the <code>@map color</code> lines. Add any line you want (taking care not to have repeated colour indeces), or change the existing ones. Colours should be specified with the RGB format and are always fully opaque.</p>
+<p>Once you are done just save the file and open <code>xmgrace</code>. You will be greeted by a (hopefully) much more colourful palette!</p>
+<p>For instance, the following lines (contained in the <code>misc/Default.agr</code> example file)</p>
 <pre><code>@map color 0 to (255, 255, 255), &quot;white&quot;
 @map color 1 to (0, 0, 0), &quot;black&quot;
 @map color 2 to (227,26,28), &quot;red&quot;
