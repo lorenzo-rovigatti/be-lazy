@@ -727,10 +727,10 @@ We will start with an example. Prepare a plottable datafile and call it
 
 Now call `gracebat -batch batch.xmg -nosafe`. The `gracebat` executable
 is part of xmgrace and it is used when there is no need to start up the
-GUI. We pass it a simple script that loads up the datafile and tells
-xmgrace to print it as an eps file using the standard style. Note that
-we have to include the `-nosafe` option or xmgrace will refuse to run
-some commands such as `PRINT`. Block data can be read by using the
+[GUI](#GUI). We pass it a simple script that loads up the datafile and
+tells xmgrace to print it as an eps file using the standard style. Note
+that we have to include the `-nosafe` option or xmgrace will refuse to
+run some commands such as `PRINT`. Block data can be read by using the
 appropriate command, for example
 
     READ BLOCK "my_data.dat"
@@ -765,13 +765,20 @@ of the axes, as well as the style and legend of the first set:
     s0 symbol size 1.5
     s0 legend "Experiments"
 
-The full list of commands can be found in the [official
-documentation](http://plasma-gate.weizmann.ac.il/Grace/doc/UsersGuide.html#s5).
+As far as I know, everything that can be done with the [GUI](#GUI) can
+also be done in a script. So, in principle, it is possible to write
+scripts that define regions, fit to data, prepare multi-graph plots,
+*etc*. Check the [official
+documentation](http://plasma-gate.weizmann.ac.il/Grace/doc/UsersGuide.html#s5)
+for the full list of commands and options.
+
+It is also possible to use [pygrace](http://pygrace.github.io/) to
+create xmgrace plots directly from within Python.
 
 ### Miscellaneous tips & tricks
 
--   To copy & paste use `ctrl + insert` and `shift + insert`. Your default OS shortcuts do not work. On Linux, you can also use the mouse middle button.
-    ----------------------------------------------------------------------------------------------------------------------------------------------------
+-   Your default OS shortcuts for copying & pasting text will not work. Use `ctrl + insert` and `shift + insert` instead. On Linux, you can also use the mouse middle button.
+    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 SSH
 ===
@@ -1011,6 +1018,12 @@ Glossary
 :   The data structure used by the OS to manage and provide access to
     the files and directories to a user
     ([wikipedia](https://en.wikipedia.org/wiki/File_system))
+
+<a id="GUI" class="glossary_entry">GUI (Graphical User Interface)</a>
+
+:   an interface that allows the user to interact with it through
+    graphical elements (icons, menus, forms). It is opposed to
+    *text-based* user interfaces such as CLI [shells](#shell).
 
 <a id="script" class="glossary_entry">Script</a>
 

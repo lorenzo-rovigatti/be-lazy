@@ -6,6 +6,10 @@
 
 : The data structure used by the OS to manage and provide access to the files and directories to a user ([wikipedia](https://en.wikipedia.org/wiki/File_system))
 
+<a id="GUI" class="glossary_entry">GUI (Graphical User Interface)</a>
+
+: an interface that allows the user to interact with it through graphical elements (icons, menus, forms). It is opposed to *text-based* user interfaces such as CLI [shells](#shell).
+
 <a id="script" class="glossary_entry">Script</a>
 
 TODO
