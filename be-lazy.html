@@ -96,7 +96,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#xmgrace">xmgrace</a>
 <ul>
 <li><a href="#improve-the-default-style">Improve the default style</a></li>
-<li><a href="#upgrade-the-default-colours">Upgrade the default colours</a></li>
+<li><a href="#change-the-default-colours">Change the default colours</a></li>
+<li><a href="#scripting-xmgrace">Scripting xmgrace</a></li>
+<li><a href="#miscellaneous-tips-tricks">Miscellaneous tips &amp; tricks</a></li>
 </ul></li>
 </ul></li>
 <li><a href="#ssh">SSH</a>
@@ -364,7 +366,7 @@ ENDIF(APPLE)</code></pre>
 <li>Name it <code>Default.agr</code> and place it in the <code>~/.grace/templates/</code> folder. Note that it might be necessary to create the folder beforehand.</li>
 </ul>
 <p>My actual <code>Default.agr</code>, which can be used as a starting point to make your own custom style, is included in the <code>misc</code> folder.</p>
-<h3 id="upgrade-the-default-colours">Upgrade the default colours</h3>
+<h3 id="change-the-default-colours">Change the default colours</h3>
 <p>The default xmgrace colour palette is quite lackluster, to say the least. Luckily, it is very easy to change the default colours. Open your <code>Default.agr</code> (see previous section) and look for the <code>@map color</code> lines. Add any line you want (taking care not to have repeated colour indeces), or change the existing ones. Colours should be specified with the RGB format and are always fully opaque.</p>
 <p>Once you are done just save the file and open <code>xmgrace</code>. You will be greeted by a (hopefully) much more colourful palette!</p>
 <p>For instance, the following lines (contained in the <code>misc/Default.agr</code> example file)</p>
@@ -393,7 +395,36 @@ ENDIF(APPLE)</code></pre>
 <p class="caption">The colour palette specified in the <code>/misc/Default.agr</code></p>
 </div>
 <p><strong>Nota Bene:</strong> the colour palette of old plots (or of plots generated on computers that use a different <code>Default.agr</code>) will not be affected. However, plots generated with your own style will look the same wherever you (or anyone else) will open them!</p>
-<hr />
+<h3 id="scripting-xmgrace">Scripting xmgrace</h3>
+<p>Scripting xmgrace is not as straightforward nor as powerful as it is for other similar software such as gnuplot. However, together with Bash (or Python or any other scripting language) it can be used to make the automatic generation of plots a bit easier.</p>
+<p>We will start with an example. Prepare a plottable datafile and call it <code>my_data.dat</code>. Copy the content of the following box to a file (<code>batch.xmg</code>, for example):</p>
+<pre><code>READ NXY &quot;my_data.dat&quot;
+PRINT TO &quot;my_data.eps&quot;
+DEVICE &quot;EPS&quot; OP &quot;level2&quot;
+PRINT</code></pre>
+<p>Now call <code>gracebat -batch batch.xmg -nosafe</code>. The <code>gracebat</code> executable is part of xmgrace and it is used when there is no need to start up the GUI. We pass it a simple script that loads up the datafile and tells xmgrace to print it as an eps file using the standard style. Note that we have to include the <code>-nosafe</code> option or xmgrace will refuse to run some commands such as <code>PRINT</code>. Block data can be read by using the appropriate command, for example</p>
+<pre><code>READ BLOCK &quot;my_data.dat&quot;
+BLOCK xy &quot;1:3&quot;</code></pre>
+<p>will create a new <code>xy</code> set with the first and third columns of the datafile.</p>
+<p><strong>Nota Bene:</strong> You may use batch files that do not explicitly read from any datafile by passing those datafiles directly to the executable, <em>e.g.</em> <code>gracebat -batch batch.xmg -nosafe my_data.dat</code> or <code>gracebat -batch batch.xmg -nosafe -block my_data.dat -bxy 1:3</code>.</p>
+<p>The style of the plot can be changed by using the same commands that are found in the <code>.agr</code> files. The best way of learning them is to prepare a plot with the style you want to use, save it and open it with your preferred text editor. You can then straightforwardly copy and paste any line you want to your batch file (omitting the starting `@' sign). For example, with the following box you can set the ranges, labels and ticks of the axes, as well as the style and legend of the first set:</p>
+<pre><code>WORLD XMIN 0
+WORLD XMAX 25
+WORLD YMIN 0
+WORLD YMAX 1
+xaxis label &quot;x&quot;
+xaxis tick major 5
+yaxis label &quot;y&quot;
+yaxis tick minor ticks 4
+s0 line type 0
+s0 symbol 1
+s0 symbol size 1.5
+s0 legend &quot;Experiments&quot;</code></pre>
+<p>The full list of commands can be found in the <a href="http://plasma-gate.weizmann.ac.il/Grace/doc/UsersGuide.html#s5">official documentation</a>.</p>
+<h3 id="miscellaneous-tips-tricks">Miscellaneous tips &amp; tricks</h3>
+<ul>
+<li><h2 id="to-copy-paste-use-ctrl-insert-and-shift-insert.-your-default-os-shortcuts-do-not-work.-on-linux-you-can-also-use-the-mouse-middle-button.">To copy &amp; paste use <code>ctrl + insert</code> and <code>shift + insert</code>. Your default OS shortcuts do not work. On Linux, you can also use the mouse middle button.</h2></li>
+</ul>
 <h1 id="ssh">SSH</h1>
 <p>Connecting through <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine (be it your office computer, home desktop or HPC cluster) is one of the most common operations in the daily routine of many people who do this job. If you are one of these people, you will likely find yourself SSH-ing to this or that computer quite often. If you have an account <code>lorenzo</code> on the <code>powercluster.cool.univ.com</code> machine, you can use the following command to establish a remote connection with it<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ssh</span> lorenzo@powercluster.cool.univ.com</code></pre></div>

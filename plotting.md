@@ -18,7 +18,7 @@ Fortunately, xmgrace provides an easy way out:
 
 My actual `Default.agr`, which can be used as a starting point to make your own custom style, is included in the `misc` folder.
 
-### Upgrade the default colours
+### Change the default colours
 
 The default xmgrace colour palette is quite lackluster, to say the least. Luckily, it is very easy to change the default colours. Open your `Default.agr` (see previous section) and look for the `@map color` lines. Add any line you want (taking care not to have repeated colour indeces), or change the existing ones. Colours should be specified with the RGB format and are always fully opaque.
 
@@ -53,3 +53,51 @@ generate the colour palette shown below
 ![The colour palette specified in the `/misc/Default.agr`](images/xmgrace_palette.png)
 
 **Nota Bene:** the colour palette of old plots (or of plots generated on computers that use a different `Default.agr`) will not be affected. However, plots generated with your own style will look the same wherever you (or anyone else) will open them!
+
+### Scripting xmgrace
+
+Scripting xmgrace is not as straightforward nor as powerful as it is for other similar software such as gnuplot. However, together with Bash (or Python or any other scripting language) it can be used to make the automatic generation of plots a bit easier.
+
+We will start with an example. Prepare a plottable datafile and call it `my_data.dat`. Copy the content of the following box to a file (`batch.xmg`, for example):
+
+```
+READ NXY "my_data.dat"
+PRINT TO "my_data.eps"
+DEVICE "EPS" OP "level2"
+PRINT
+```
+
+Now call `gracebat -batch batch.xmg -nosafe`. The `gracebat` executable is part of xmgrace and it is used when there is no need to start up the GUI. We pass it a simple script that loads up the datafile and tells xmgrace to print it as an eps file using the standard style. Note that we have to include the `-nosafe` option or xmgrace will refuse to run some commands such as `PRINT`. Block data can be read by using the appropriate command, for example
+
+```
+READ BLOCK "my_data.dat"
+BLOCK xy "1:3"
+```
+
+will create a new `xy` set with the first and third columns of the datafile.
+
+**Nota Bene:** You may use batch files that do not explicitly read from any datafile by passing those datafiles directly to the executable, *e.g.* `gracebat -batch batch.xmg -nosafe my_data.dat` or `gracebat -batch batch.xmg -nosafe -block my_data.dat -bxy 1:3`.
+
+The style of the plot can be changed by using the same commands that are found in the `.agr` files. The best way of learning them is to prepare a plot with the style you want to use, save it and open it with your preferred text editor. You can then straightforwardly copy and paste any line you want to your batch file (omitting the starting `@' sign). For example, with the following box you can set the ranges, labels and ticks of the axes, as well as the style and legend of the first set:
+
+```
+WORLD XMIN 0
+WORLD XMAX 25
+WORLD YMIN 0
+WORLD YMAX 1
+xaxis label "x"
+xaxis tick major 5
+yaxis label "y"
+yaxis tick minor ticks 4
+s0 line type 0
+s0 symbol 1
+s0 symbol size 1.5
+s0 legend "Experiments"
+```
+
+The full list of commands can be found in the [official documentation](http://plasma-gate.weizmann.ac.il/Grace/doc/UsersGuide.html#s5).
+
+
+### Miscellaneous tips & tricks
+
+* To copy & paste use `ctrl + insert` and `shift + insert`. Your default OS shortcuts do not work. On Linux, you can also use the mouse middle button.
